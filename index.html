@@ -241,6 +241,47 @@
     .ok{ color: #0a7; }
     .err{ color: #c00; }
 
+    .progressWrap{
+      margin-top: 12px;
+      background: #fff;
+      border: 1px solid var(--gold-soft);
+      border-radius: 999px;
+      padding: 6px;
+      box-shadow: var(--shadow2);
+      overflow: hidden;
+    }
+
+    .progressBar{
+      height: 12px;
+      width: 0%;
+      border-radius: 999px;
+      background:
+        linear-gradient(90deg, #f7e9b7 0%, #c6a85a 40%, #b9963a 100%);
+      position: relative;
+      transition: width 0.25s ease;
+    }
+
+    .progressBar::after{
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          rgba(255,255,255,0.45) 0px,
+          rgba(255,255,255,0.45) 6px,
+          rgba(255,255,255,0.2) 6px,
+          rgba(255,255,255,0.2) 12px
+        );
+      mix-blend-mode: screen;
+      animation: shimmer 1.2s linear infinite;
+    }
+
+    @keyframes shimmer{
+      from { transform: translateX(-20%); }
+      to { transform: translateX(20%); }
+    }
+
     .foot{
       margin-top: 16px;
       color: var(--muted);
@@ -284,6 +325,9 @@
 
             <div id="previewGrid" class="previewGrid" aria-live="polite"></div>
             <div id="fileList" class="fileList" aria-live="polite"></div>
+            <div id="progressWrap" class="progressWrap" aria-hidden="true" style="display:none;">
+              <div id="progressBar" class="progressBar"></div>
+            </div>
             <div id="status" class="status" aria-live="polite"></div>
             <div class="foot">Die Fotos werden nur für die Hochzeits-Erinnerungen gespeichert.</div>
           </div>
@@ -305,15 +349,24 @@
     const listEl = document.getElementById("fileList");
     const previewEl = document.getElementById("previewGrid");
     const statusEl = document.getElementById("status");
+    const progressWrap = document.getElementById("progressWrap");
+    const progressBar = document.getElementById("progressBar");
 
     /** @type {File[]} */
     let selected = [];
     /** @type {string[]} */
     let previewUrls = [];
+    /** @type {Map<string, number>} */
+    const compressedSizes = new Map();
 
     function setStatus(text, cls="") {
       statusEl.className = "status " + cls;
       statusEl.textContent = text;
+    }
+
+    function setProgress(pct){
+      const clamped = Math.max(0, Math.min(100, pct));
+      progressBar.style.width = `${clamped}%`;
     }
 
     function prettySize(bytes){
@@ -321,6 +374,55 @@
       let i = 0, v = bytes;
       while(v >= 1024 && i < units.length-1){ v/=1024; i++; }
       return `${v.toFixed(v >= 10 || i===0 ? 0 : 1)} ${units[i]}`;
+    }
+
+    const COMPRESS = {
+      maxDim: 1920,   // max width/height
+      quality: 0.78,  // jpeg quality 0-1
+      minSize: 450 * 1024 // only compress if >= 450KB
+    };
+
+    function loadImageFromFile(file){
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+        img.onerror = (e) => { URL.revokeObjectURL(url); reject(e); };
+        img.src = url;
+      });
+    }
+
+    function canvasToBlob(canvas, type, quality){
+      return new Promise((resolve) => canvas.toBlob(resolve, type, quality));
+    }
+
+    async function compressImage(file){
+      // skip small files
+      if(file.size < COMPRESS.minSize) return file;
+
+      const img = await loadImageFromFile(file);
+      const w = img.naturalWidth || img.width;
+      const h = img.naturalHeight || img.height;
+
+      const scale = Math.min(1, COMPRESS.maxDim / Math.max(w, h));
+      const cw = Math.max(1, Math.round(w * scale));
+      const ch = Math.max(1, Math.round(h * scale));
+
+      const canvas = document.createElement("canvas");
+      canvas.width = cw;
+      canvas.height = ch;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, cw, ch);
+
+      const type = "image/jpeg";
+      const blob = await canvasToBlob(canvas, type, COMPRESS.quality);
+      if(!blob) return file;
+
+      // if result not smaller, keep original
+      if(blob.size >= file.size) return file;
+
+      const name = file.name.replace(/\.(png|webp|heic|heif|jpeg|jpg)$/i, "") + ".jpg";
+      return new File([blob], name, { type, lastModified: file.lastModified });
     }
 
     function renderList(){
@@ -334,7 +436,12 @@
       for(const f of show){
         const div = document.createElement("div");
         div.className = "chip";
-        div.innerHTML = `<span>${escapeHtml(f.name)}</span><small>${prettySize(f.size)}</small>`;
+        const key = fileKey(f);
+        const compressed = compressedSizes.get(key);
+        const sizeLabel = compressed
+          ? `${prettySize(f.size)} → ${prettySize(compressed)}`
+          : prettySize(f.size);
+        div.innerHTML = `<span>${escapeHtml(f.name)}</span><small>${sizeLabel}</small>`;
         listEl.appendChild(div);
       }
       if(selected.length > 8){
@@ -384,16 +491,35 @@
       return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
     }
 
+    function fileKey(f){
+      return `${f.name}__${f.size}__${f.lastModified}`;
+    }
+
     function addFiles(files){
       const arr = Array.from(files || []);
       // nur Bilder:
       const images = arr.filter(f => (f.type || "").startsWith("image/"));
-      const byKey = (f) => `${f.name}__${f.size}__${f.lastModified}`;
-      const existing = new Map(selected.map(f => [byKey(f), f]));
-      for(const f of images) existing.set(byKey(f), f);
+      const existing = new Map(selected.map(f => [fileKey(f), f]));
+      for(const f of images) existing.set(fileKey(f), f);
       selected = Array.from(existing.values());
       renderPreviews();
       renderList();
+      void computeCompressedSizes(images);
+    }
+
+    async function computeCompressedSizes(files){
+      for(const f of files){
+        const key = fileKey(f);
+        if(compressedSizes.has(key)) continue;
+        try{
+          const optimized = await compressImage(f);
+          if(optimized !== f) compressedSizes.set(key, optimized.size);
+        } catch {
+          // ignore errors; keep original size
+        } finally {
+          renderList();
+        }
+      }
     }
 
     pickBtn.addEventListener("click", () => fileInput.click());
@@ -432,6 +558,9 @@
       uploadBtn.disabled = true;
       pickBtn.disabled = true;
       setStatus("Upload startet…", "");
+      progressWrap.style.display = "block";
+      progressWrap.setAttribute("aria-hidden", "false");
+      setProgress(2);
 
       try {
         let done = 0;
@@ -442,15 +571,16 @@
 
           setStatus(`Upload… ${done+1}/${selected.length}`, "");
 
-          const base64 = await fileToBase64(f);
+          const optimized = await compressImage(f);
+          const base64 = await fileToBase64(optimized);
 
           const res = await fetch(ENDPOINT, {
             method: "POST",
             headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify({
               secret: SECRET,
-              fileName: f.name,
-              mimeType: f.type || "image/jpeg",
+              fileName: optimized.name,
+              mimeType: optimized.type || "image/jpeg",
               base64
             })
           });
@@ -459,9 +589,11 @@
           if(!json.ok) throw new Error(json.error || "Upload fehlgeschlagen");
 
           done++;
+          setProgress((done / selected.length) * 100);
         }
 
         setStatus(`✅ Danke! ${done} Foto(s) hochgeladen.`, "ok");
+        setProgress(100);
         // optional: Auswahl leeren
         // selected = []; fileInput.value = ""; renderList();
 
@@ -470,6 +602,11 @@
       } finally {
         uploadBtn.disabled = false;
         pickBtn.disabled = false;
+        setTimeout(() => {
+          progressWrap.style.display = "none";
+          progressWrap.setAttribute("aria-hidden", "true");
+          setProgress(0);
+        }, 1400);
       }
     });
   </script>
