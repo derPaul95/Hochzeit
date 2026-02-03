@@ -264,7 +264,6 @@
     <header>
       <p class="couple">Celine &amp; Paul · 07.03.2026</p>
       <h1>Teilt eure schönsten Momente</h1>
-      <p class="welcome">Schön, dass ihr da seid.</p>
       <p class="sub">Wählt Fotos aus oder zieht sie in das Feld. Danach auf <b>„Hochladen“</b> tippen. Danke ❤️</p>
     </header>
 
@@ -389,13 +388,20 @@
       const arr = Array.from(files || []);
       // nur Bilder:
       const images = arr.filter(f => (f.type || "").startsWith("image/"));
-      selected = images;
+      const byKey = (f) => `${f.name}__${f.size}__${f.lastModified}`;
+      const existing = new Map(selected.map(f => [byKey(f), f]));
+      for(const f of images) existing.set(byKey(f), f);
+      selected = Array.from(existing.values());
       renderPreviews();
       renderList();
     }
 
     pickBtn.addEventListener("click", () => fileInput.click());
-    fileInput.addEventListener("change", (e) => addFiles(e.target.files));
+    fileInput.addEventListener("change", (e) => {
+      addFiles(e.target.files);
+      // erlaubt das erneute Auswählen derselben Datei(en)
+      fileInput.value = "";
+    });
 
     // Drag & Drop UX
     ["dragenter","dragover"].forEach(evt => drop.addEventListener(evt, (e)=>{
