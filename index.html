@@ -460,13 +460,14 @@
 
             <div class="row">
               <button class="btn" id="pick">Fotos auswählen</button>
+              <button class="btn" id="cameraBtn">Foto aufnehmen</button>
               <button class="btn btnPrimary" id="upload">Hochladen</button>
             </div>
 
             <input id="file" type="file" accept="image/*" multiple />
+            <input id="camera" type="file" accept="image/*" capture="environment" />
 
             <div id="previewGrid" class="previewGrid" aria-live="polite"></div>
-            <div id="fileList" class="fileList" aria-live="polite"></div>
             <div id="progressWrap" class="progressWrap" aria-hidden="true" style="display:none;">
               <div id="progressBar" class="progressBar"></div>
             </div>
@@ -496,9 +497,10 @@
 
     const drop = document.getElementById("drop");
     const fileInput = document.getElementById("file");
+    const cameraInput = document.getElementById("camera");
     const pickBtn = document.getElementById("pick");
+    const cameraBtn = document.getElementById("cameraBtn");
     const uploadBtn = document.getElementById("upload");
-    const listEl = document.getElementById("fileList");
     const previewEl = document.getElementById("previewGrid");
     const statusEl = document.getElementById("status");
     const progressWrap = document.getElementById("progressWrap");
@@ -511,8 +513,6 @@
     let selected = [];
     /** @type {string[]} */
     let previewUrls = [];
-    /** @type {Map<string, number>} */
-    const compressedSizes = new Map();
     /** @type {Map<string, string>} */
     const perFileStatus = new Map();
     /** @type {Map<string, File>} */
@@ -584,34 +584,6 @@
 
       const name = file.name.replace(/\.(png|webp|heic|heif|jpeg|jpg)$/i, "") + ".jpg";
       return new File([blob], name, { type, lastModified: file.lastModified });
-    }
-
-    function renderList(){
-      listEl.innerHTML = "";
-      if(!selected.length){
-        setStatus("", "");
-        return;
-      }
-      // zeige max. 8 Einträge, Rest als "+X weitere"
-      const show = selected.slice(0, 8);
-      for(const f of show){
-        const div = document.createElement("div");
-        div.className = "chip";
-        const key = fileKey(f);
-        const compressed = compressedSizes.get(key);
-        const sizeLabel = compressed
-          ? `${prettySize(f.size)} → ${prettySize(compressed)}`
-          : prettySize(f.size);
-        div.innerHTML = `<span>${escapeHtml(f.name)}</span><small>${sizeLabel}</small>`;
-        listEl.appendChild(div);
-      }
-      if(selected.length > 8){
-        const more = document.createElement("div");
-        more.className = "chip";
-        more.innerHTML = `<span>+ ${selected.length - 8} weitere</span><small>bereit</small>`;
-        listEl.appendChild(more);
-      }
-      setStatus(`Bereit: ${selected.length} Foto(s)`, "");
     }
 
     function renderPreviews(){
@@ -716,43 +688,45 @@
       }
       clearThanks();
       renderPreviews();
-      renderList();
+      setStatus(selected.length ? `Bereit: ${selected.length} Foto(s)` : "", "");
       void computeCompressedSizes(images);
     }
 
     function removeFileByKey(key){
       selected = selected.filter(f => fileKey(f) !== key);
-      compressedSizes.delete(key);
       perFileStatus.delete(key);
       compressedFiles.delete(key);
       renderPreviews();
-      renderList();
+      setStatus(selected.length ? `Bereit: ${selected.length} Foto(s)` : "", "");
     }
 
     async function computeCompressedSizes(files){
       for(const f of files){
         const key = fileKey(f);
-        if(compressedSizes.has(key)) continue;
+        if(compressedFiles.has(key)) continue;
         try{
           const optimized = await compressImage(f);
           if(optimized !== f){
-            compressedSizes.set(key, optimized.size);
             compressedFiles.set(key, optimized);
           }
         } catch {
           // ignore errors; keep original size
         } finally {
-          renderList();
           renderPreviews();
         }
       }
     }
 
     pickBtn.addEventListener("click", () => fileInput.click());
+    cameraBtn.addEventListener("click", () => cameraInput.click());
     fileInput.addEventListener("change", (e) => {
       addFiles(e.target.files);
       // erlaubt das erneute Auswählen derselben Datei(en)
       fileInput.value = "";
+    });
+    cameraInput.addEventListener("change", (e) => {
+      addFiles(e.target.files);
+      cameraInput.value = "";
     });
 
     // Drag & Drop UX
