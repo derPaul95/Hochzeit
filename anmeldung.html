@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Anmeldung Schulformen</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --text: #132030;
+      --muted: #4d5b6d;
+      --primary: #0d5ea6;
+      --primary-hover: #0a4d88;
+      --border: #d8e0ea;
+      --success: #0b7a3e;
+      --shadow: 0 6px 18px rgba(9, 30, 66, 0.08);
+      --radius: 14px;
+      --radius-sm: 10px;
+      --focus: 0 0 0 3px rgba(13, 94, 166, 0.28);
+      --space-1: clamp(10px, 1.4vw, 14px);
+      --space-2: clamp(14px, 2vw, 20px);
+      --space-3: clamp(18px, 2.6vw, 28px);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      background: linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+      color: var(--text);
+      line-height: 1.5;
+      font-size: clamp(14px, 1.15vw, 16px);
+    }
+
+    .wrap {
+      width: min(1160px, 94vw);
+      margin: var(--space-2) auto var(--space-3);
+    }
+
+    .hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: var(--space-2);
+      margin-bottom: var(--space-2);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+      line-height: 1.2;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      max-width: 72ch;
+      font-size: clamp(1rem, 1vw, 1.12rem);
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: var(--space-2);
+    }
+
+    .step-title {
+      margin: 0 0 10px;
+      font-size: 1.02rem;
+      font-weight: 700;
+    }
+
+    .select-label {
+      display: block;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin: 0 0 8px;
+    }
+
+    .desktop-only { display: none; }
+    .mobile-only { display: block; }
+
+    .abschluss-desktop {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .abschluss-chip {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.15s ease;
+      min-height: 44px;
+    }
+
+    .abschluss-chip:hover {
+      border-color: var(--primary);
+      background: #f6fbff;
+    }
+
+    .abschluss-chip[aria-pressed="true"] {
+      border-color: var(--primary);
+      background: #eaf4ff;
+      color: #083c69;
+    }
+
+    .abschluss-select {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-size: 0.97rem;
+      font-weight: 600;
+      min-height: 48px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 10px 14px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: 0.15s ease;
+      min-height: 42px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover { background: var(--primary-hover); }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .btn-secondary:hover { background: #f0f7ff; }
+
+    .btn-neutral {
+      background: #fff;
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .btn-neutral:hover { background: #f7fafd; }
+
+    .results-header {
+      margin: 0 0 calc(var(--space-1) + 6px);
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .results-section {
+      margin-top: var(--space-3);
+      padding-top: var(--space-2);
+      border-top: 1px solid var(--border);
+      scroll-margin-top: 12px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
+      max-width: 980px;
+      margin: var(--space-2) auto 0;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: var(--space-1);
+      display: grid;
+      gap: 10px;
+      height: 100%;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.3;
+      font-family: inherit;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--text);
+      font-family: inherit;
+    }
+
+    .card-copy {
+      white-space: pre-line;
+      line-height: 1.6;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      line-height: 1.6;
+    }
+
+    .meta span { color: var(--text); }
+    .meta strong {
+      font-family: inherit;
+      font-weight: 700;
+      color: inherit;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    .card-actions .btn {
+      flex: 1 1 100%;
+    }
+
+    .notice {
+      margin-top: var(--space-1);
+      border: 1px solid #f0d8a8;
+      background: #fff8ea;
+      color: #6a4b00;
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .success-text {
+      color: var(--success);
+      font-weight: 700;
+      margin: 0 0 calc(var(--space-1) + 2px);
+      font-size: 0.95rem;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    :focus-visible { outline: none; box-shadow: var(--focus); }
+
+    @media (min-width: 700px) {
+      .desktop-only { display: block; }
+      .mobile-only { display: none; }
+      .card-actions .btn {
+        flex: 0 1 auto;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .wrap {
+        width: min(1220px, 92vw);
+      }
+    }
+
+    @media (max-width: 420px) {
+      .hero,
+      .panel {
+        border-radius: 12px;
+      }
+      .btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        margin: 10px auto 16px;
+      }
+      .hero {
+        padding: 14px;
+        margin-bottom: 12px;
+      }
+      h1 {
+        font-size: 1.28rem;
+        margin-bottom: 6px;
+      }
+      .lead {
+        font-size: 0.95rem;
+        line-height: 1.45;
+      }
+      .panel {
+        padding: 14px;
+      }
+      .step-title {
+        font-size: 0.98rem;
+        margin-bottom: 6px;
+      }
+      .select-label {
+        margin-bottom: 6px;
+      }
+      .abschluss-select {
+        font-size: 0.92rem;
+        min-height: 44px;
+        padding: 10px 12px;
+      }
+      .results-section {
+        margin-top: 14px;
+        padding-top: 12px;
+      }
+      .btn {
+        font-size: 0.9rem;
+        min-height: 38px;
+        padding: 8px 12px;
+      }
+      .results-header {
+        font-size: 1rem;
+      }
+      .success-text {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap" aria-label="Anmeldung und Schulformen">
+    <section class="hero" aria-labelledby="page-title">
+      <h1 id="page-title">Dein Weg zur passenden Schulform</h1>
+      <p class="lead">
+        Wähle zuerst deinen bisherigen Abschluss aus. Danach zeigen wir dir passende Schulformen,
+        die du direkt vergleichen und für die du dich anmelden kannst.
+      </p>
+    </section>
+
+    <section class="panel" aria-labelledby="abschluss-title">
+      <h2 id="abschluss-title" class="step-title">1. Welchen Abschluss hast du bereits?</h2>
+      <div class="mobile-only">
+        <label for="abschluss-select" class="select-label">Abschluss auswählen</label>
+        <select id="abschluss-select" class="abschluss-select" aria-label="Abschluss auswählen">
+          <option value="">Bitte auswählen...</option>
+        </select>
+      </div>
+
+      <div class="desktop-only">
+        <p class="select-label">Abschluss auswählen</p>
+        <div id="abschluss-desktop" class="abschluss-desktop" role="group" aria-label="Abschluss auswählen"></div>
+      </div>
+
+      <div class="results-section" id="schulformen-anchor">
+        <h2 class="results-header" id="results-title">2. Passende Schulformen</h2>
+        <p id="selection-info" class="success-text" aria-live="polite"></p>
+        <div id="results" class="cards" aria-live="polite" aria-labelledby="results-title"></div>
+        <div id="no-results" class="notice" hidden role="status" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    /********************************************************************
+     * KONFIGURATION: ABSCHLUSS-RANKING
+     * Passe hier die Reihenfolge an.
+     * Hinweis: "Abgeschlossene Berufsausbildung" ist aktuell = 3.
+     * Wenn gewünscht, einfach auf 4 setzen.
+     ********************************************************************/
+    const ABSCHLUSS_RANK = {
+      noch_keinen_abschluss: 0,
+      hauptschulabschluss: 1,
+      mittlere_reife: 2,
+      versetzung_gymnasiale_oberstufe: 3,
+      abgeschlossene_berufsausbildung: 4
+    };
+
+    /********************************************************************
+     * KONFIGURATION: ABSCHLUSS-OPTIONEN (Anzeigetexte)
+     ********************************************************************/
+    const ABSCHLUSS_OPTIONEN = [
+      { key: "noch_keinen_abschluss", label: "Noch keinen Abschluss" },
+      { key: "hauptschulabschluss", label: "Hauptschulabschluss" },
+      { key: "mittlere_reife", label: "Mittlere Reife" },
+      { key: "versetzung_gymnasiale_oberstufe", label: "Versetzung in die gymnasiale Oberstufe" },
+      { key: "abgeschlossene_berufsausbildung", label: "Abgeschlossene Berufsausbildung" }
+    ];
+
+    /********************************************************************
+     * KONFIGURATION: SCHULFORMEN
+     * HIER später Titel, Texte, Dauer, Zielabschluss und URLs anpassen.
+     * Filterregel:
+     * - Standard: sichtbar, wenn selectedRank === minAbschlussRank
+     * - Optional: mit maxAbschlussRank fuer Bereiche (z. B. 0 bis 1)
+     ********************************************************************/
+    const SCHULFORMEN = [
+      {
+        minAbschlussRank: 0,
+        maxAbschlussRank: 1,
+        title: "BÜA",
+        kurztext: "In ein bis zwei Jahren unterstützt dich die Berufsfachschule zum Übergang in Ausbildung (BÜA) mit gezielter Förderung in Deutsch, Mathematik und Englisch, intensiver Berufsorientierung und betrieblichen Praktika.\n\nDu bekommst Einblicke in Holztechnik, Elektrotechnik, Metalltechnik, Gebäude-/Umwelttechnik, Chemietechnik und Informationstechnik.",
+        dauer: "1-2 Jahre",
+        zielabschluss: "Einstieg in Ausbildung, Hauptschulabschluss oder Mittlerer Bildungsabschluss",
+        infoUrl: "https://www.ludwig-geissler-schule.de/b%C3%BCa",
+        anmeldeUrl: "https://www.ludwig-geissler-schule.de/b%C3%BCa"
+      },
+      {
+        minAbschlussRank: 0,
+        maxAbschlussRank: 0,
+        title: "INTEA",
+        kurztext: "INTEA steht für Integration durch Anschluss und Abschluss.\n\nIn zwei Jahren wirst du durch intensive Sprachfoerderung fit in Deutsch, damit du schneller in eine Berufsausbildung oder in andere Schulformen und Bildungsgänge wechseln und deine Integration erfolgreich gestalten kannst.",
+        dauer: "2 Jahre",
+        zielabschluss: "Sprachliche Integration und Anschluss an Ausbildung oder weiterfuehrende Bildungsgänge",
+        infoUrl: "https://www.ludwig-geissler-schule.de/intea",
+        anmeldeUrl: "https://www.ludwig-geissler-schule.de/intea-download"
+      },
+      {
+        minAbschlussRank: 2,
+        maxAbschlussRank: 4,
+        title: "Fachoberschule (FOS)",
+        kurztext: "In der Fachoberschule bereitest du in ein bis zwei Jahren die allgemeine Fachhochschulreife vor.\n\nOrganisationsform A (2 Jahre) enthaelt im ersten Jahr ein Praktikum. Organisationsform B (1 Jahr) setzt eine einschlaegig anerkannte Berufsausbildung voraus.\n\nSchwerpunkte sind unter anderem chemisch-physikalische Technik, Elektrotechnik, Informationstechnik und Maschinenbau.",
+        dauer: "1-2 Jahre",
+        zielabschluss: "Fachhochschulreife",
+        infoUrl: "https://www.ludwig-geissler-schule.de/fachoberschule",
+        anmeldeUrl: "https://www.ludwig-geissler-schule.de/fos-download"
+      },
+      {
+        minAbschlussRank: 2,
+        maxAbschlussRank: 4,
+        title: "Berufliches Gymnasium",
+        kurztext: "Im beruflichen Gymnasium kannst du in drei Jahren die Allgemeine Hochschulreife erwerben.\n\nDer Schwerpunkt liegt im Bereich Technik mit enger Verbindung von Theorie und Praxis, unter anderem in Biotechnik, Chemietechnik, Elektrotechnik, Maschinenbau und Praktischer Informatik.",
+        dauer: "3 Jahre",
+        zielabschluss: "Allgemeine Hochschulreife (Abitur)",
+        infoUrl: "https://www.ludwig-geissler-schule.de/berufliches-gymnasium",
+        anmeldeUrl: "https://www.ludwig-geissler-schule.de/bg-download"
+      },
+      {
+        minAbschlussRank: 4,
+        title: "Fachschule für Technik",
+        kurztext: "In zwei bis vier Jahren unterstützt dich die Fachschule für Technik beim Aufstieg vom Gesellen ins mittlere Management.\n\nDu vertiefst dich in Chemietechnik (Labortechnik), Elektrotechnik (Energietechnik und Prozessautomatisierung) oder Maschinentechnik (Maschinenbau) und lernst praxisnah in modernen Laboren und Projekten.\n\nOptional ergänzt das Angebot Technische Betriebswirtschaft für Techniker in einem halben Jahr Vollzeit bzw. einem Jahr Teilzeit dein Profil.",
+        dauer: "2 Jahre Vollzeit oder 4 Jahre Teilzeit",
+        zielabschluss: "Staatlich geprüfte/r Techniker/in (Bachelor Professional), optional Technische/r Betriebswirt/in",
+        infoUrl: "https://www.ludwig-geissler-schule.de/fachschule",
+        anmeldeUrl: "https://www.ludwig-geissler-schule.de/ts-download"
+      }
+    ];
+
+    /********************************************************************
+     * KONFIGURATION: KONTAKT-HINWEIS bei keinem Treffer
+     ********************************************************************/
+    const KONTAKT_EMAIL = "beratung@schule.de";
+
+    let selectedKey = null;
+
+    const abschlussSelect = document.getElementById("abschluss-select");
+    const abschlussDesktop = document.getElementById("abschluss-desktop");
+    const resultsEl = document.getElementById("results");
+    const noResultsEl = document.getElementById("no-results");
+    const selectionInfoEl = document.getElementById("selection-info");
+
+    function renderAbschlussSelectOptions() {
+      ABSCHLUSS_OPTIONEN.forEach((opt) => {
+        const option = document.createElement("option");
+        option.value = opt.key;
+        option.textContent = opt.label;
+        abschlussSelect.appendChild(option);
+      });
+    }
+
+    function renderAbschlussDesktopOptions() {
+      abschlussDesktop.innerHTML = "";
+      ABSCHLUSS_OPTIONEN.forEach((opt) => {
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "abschluss-chip";
+        chip.textContent = opt.label;
+        chip.setAttribute("aria-pressed", String(selectedKey === opt.key));
+        chip.addEventListener("click", () => {
+          selectedKey = opt.key;
+          abschlussSelect.value = opt.key;
+          renderAbschlussDesktopOptions();
+          renderResults();
+        });
+        abschlussDesktop.appendChild(chip);
+      });
+    }
+
+    function createCard(item) {
+      const card = document.createElement("article");
+      card.className = "card";
+      card.setAttribute("aria-label", `Schulform ${item.title}`);
+
+      const title = document.createElement("h3");
+      title.textContent = item.title;
+
+      const text = document.createElement("p");
+      text.className = "card-copy";
+      text.textContent = item.kurztext;
+
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      meta.innerHTML = `
+        <span><strong>Dauer:</strong> ${item.dauer}</span>
+        <span><strong>Zielabschluss:</strong> ${item.zielabschluss}</span>
+      `;
+
+      const actions = document.createElement("div");
+      actions.className = "card-actions";
+
+      const infoBtn = document.createElement("a");
+      infoBtn.className = "btn btn-secondary";
+      infoBtn.href = item.infoUrl;
+      infoBtn.target = "_blank";
+      infoBtn.rel = "noopener noreferrer";
+      infoBtn.textContent = "Mehr Infos";
+      infoBtn.setAttribute("aria-label", `Mehr Infos zu ${item.title}`);
+
+      const anmeldenBtn = document.createElement("a");
+      anmeldenBtn.className = "btn btn-primary";
+      anmeldenBtn.href = item.anmeldeUrl;
+      anmeldenBtn.target = "_blank";
+      anmeldenBtn.rel = "noopener noreferrer";
+      anmeldenBtn.textContent = "Anmelden";
+      anmeldenBtn.setAttribute("aria-label", `Für ${item.title} anmelden`);
+
+      // Optional: postMessage an Parent (z. B. Wix-iFrame)
+      anmeldenBtn.addEventListener("click", () => {
+        try {
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(
+              { type: "anmeldung_click", schulform: item.title },
+              "*"
+              // In Produktion besser konkrete Origin statt "*" verwenden.
+            );
+          }
+        } catch (e) {
+          // Fehler still ignorieren, Link funktioniert trotzdem.
+        }
+      });
+
+      actions.appendChild(infoBtn);
+      actions.appendChild(anmeldenBtn);
+
+      card.appendChild(title);
+      card.appendChild(text);
+      card.appendChild(meta);
+      card.appendChild(actions);
+
+      return card;
+    }
+
+    function renderResults() {
+      resultsEl.innerHTML = "";
+      noResultsEl.hidden = true;
+
+      if (!selectedKey) {
+        selectionInfoEl.textContent = "Bitte zuerst einen Abschluss auswählen.";
+        return;
+      }
+
+      const selected = ABSCHLUSS_OPTIONEN.find((o) => o.key === selectedKey);
+      const selectedRank = ABSCHLUSS_RANK[selectedKey];
+      selectionInfoEl.textContent = `Ausgewählt: ${selected.label}`;
+
+      const matches = SCHULFORMEN.filter((s) => {
+        const maxRank = typeof s.maxAbschlussRank === "number" ? s.maxAbschlussRank : s.minAbschlussRank;
+        return selectedRank >= s.minAbschlussRank && selectedRank <= maxRank;
+      });
+
+      if (!matches.length) {
+        noResultsEl.hidden = false;
+        noResultsEl.innerHTML = `
+          Für deinen aktuellen Abschluss wurde noch kein passender Bildungsgang gefunden.
+          Bitte melde dich bei unserer Beratung:
+          <a href="mailto:${KONTAKT_EMAIL}">${KONTAKT_EMAIL}</a>
+        `;
+        return;
+      }
+
+      matches.forEach((item) => resultsEl.appendChild(createCard(item)));
+    }
+
+    abschlussSelect.addEventListener("change", () => {
+      selectedKey = abschlussSelect.value || null;
+      renderAbschlussDesktopOptions();
+      renderResults();
+    });
+
+    renderAbschlussSelectOptions();
+    renderAbschlussDesktopOptions();
+    renderResults();
+  </script>
+</body>
+</html>
