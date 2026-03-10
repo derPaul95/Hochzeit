@@ -449,7 +449,7 @@
       <div class="lightboxBar">
         <div id="lightboxName" class="lightboxName"></div>
         <div style="display:flex; gap:10px; align-items:center;">
-          <a id="lightboxDownload" class="btn" href="#" target="_blank" rel="noreferrer noopener">Herunterladen</a>
+          <a id="lightboxDownload" class="btn" href="#">Herunterladen</a>
           <button id="lightboxClose" class="lightboxClose" type="button" aria-label="Schließen">×</button>
         </div>
       </div>
@@ -577,8 +577,6 @@
                   <a
                     class="photoDownload"
                     href="${escapeAttr(image.downloadUrl || image.fullUrl || image.thumbUrl || "#")}"
-                    target="_blank"
-                    rel="noreferrer noopener"
                     data-download-link
                   >Download</a>
                 </div>
