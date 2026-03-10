@@ -1,0 +1,214 @@
+.windelrechner-page {
+  color-scheme: light;
+  --wr-bg: #fefbf6;
+  --wr-surface: #ffffff;
+  --wr-text: #1f2937;
+  --wr-muted: #5b6472;
+  --wr-border: #e7dece;
+  --wr-highlight: #d96832;
+  --wr-highlight-soft: #fff0e8;
+  background:
+    radial-gradient(circle at 9% 10%, #ffe4d1 0, transparent 33%),
+    radial-gradient(circle at 89% 0%, #dff1ff 0, transparent 26%),
+    var(--wr-bg);
+  color: var(--wr-text);
+}
+
+.windelrechner-page .page {
+  width: min(820px, 100%);
+  margin: 0 auto;
+  padding: 0.7rem;
+}
+
+.windelrechner-page .card {
+  background: var(--wr-surface);
+  border: 1px solid var(--wr-border);
+  border-radius: 16px;
+  padding: 0.95rem;
+}
+
+.windelrechner-page .intro-card p {
+  margin: 0.3rem 0 0;
+  color: var(--wr-muted);
+}
+
+.windelrechner-page .field-hint {
+  color: var(--wr-muted);
+  font-size: 0.85rem;
+  margin-top: -0.05rem;
+}
+
+.windelrechner-page #calcForm {
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.windelrechner-page .choice-title {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.windelrechner-page .age-picker {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.windelrechner-page .age-select {
+  display: block;
+}
+
+.windelrechner-page .age-buttons {
+  display: none;
+}
+
+.windelrechner-page .choice-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.windelrechner-page .choice-btn {
+  border: 1px solid #e6d8ce;
+  background: #fff8f4;
+  border-radius: 999px;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.windelrechner-page .choice-btn.is-active {
+  border-color: #e7a98f;
+  background: #ffece2;
+}
+
+.windelrechner-page input:not([type='checkbox']),
+.windelrechner-page select {
+  min-height: 2.75rem;
+  padding: 0.58rem 0.7rem;
+  font-size: 0.98rem;
+}
+
+.windelrechner-page .inline-input {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.windelrechner-page .inline-suffix {
+  color: var(--wr-muted);
+  font-weight: 600;
+}
+
+.windelrechner-page .period-group {
+  margin-bottom: 0.35rem;
+}
+
+.windelrechner-page .period-btn {
+  min-width: 3rem;
+}
+
+.windelrechner-page .checkbox-row {
+  display: flex;
+  gap: 0.55rem;
+  align-items: flex-start;
+  margin-top: 0.1rem;
+}
+
+.windelrechner-page .checkbox-row input {
+  appearance: auto;
+  width: 1.05rem;
+  height: 1.05rem;
+  flex: 0 0 1.05rem;
+  margin: 0.15rem 0 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.windelrechner-page .checkbox-row label {
+  font-weight: 500;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.windelrechner-page .btn-primary {
+  background: var(--wr-highlight);
+}
+
+.windelrechner-page .btn-primary:hover {
+  background: #bf5426;
+}
+
+.windelrechner-page .form-actions {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.2rem;
+}
+
+.windelrechner-page .form-actions .btn-primary {
+  justify-self: start;
+  min-width: 10rem;
+}
+
+.windelrechner-page .form-actions .status {
+  margin: 0;
+}
+
+.windelrechner-page .summary {
+  border: 1px solid #f1d4c4;
+  border-radius: 12px;
+  background: var(--wr-highlight-soft);
+  padding: 0.58rem 0.72rem;
+  margin: 0 0 0.8rem;
+  font-weight: 700;
+  color: #7f3615;
+}
+
+.windelrechner-page .metrics {
+  margin-bottom: 0.85rem;
+}
+
+.windelrechner-page .metric {
+  border-color: #ebdfd7;
+  background: linear-gradient(180deg, #ffffff, #fffaf6);
+}
+
+.windelrechner-page .tip {
+  margin: 0;
+  color: var(--wr-muted);
+}
+
+.windelrechner-page .empty,
+.windelrechner-page .hidden {
+  margin: 0;
+}
+
+.windelrechner-page .hidden {
+  display: none;
+}
+
+@media (min-width: 720px) {
+  .windelrechner-page .page {
+    padding: 1.1rem;
+  }
+
+  .windelrechner-page .card {
+    padding: 1.15rem;
+  }
+
+  .windelrechner-page .age-select {
+    display: none;
+  }
+
+  .windelrechner-page .age-buttons {
+    display: flex;
+  }
+
+  .windelrechner-page .form-actions {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 0.8rem;
+  }
+}

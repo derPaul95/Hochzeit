@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BabyTools | Windel-Rechner</title>
+    <meta
+      name="description"
+      content="Windel-Rechner für die einfache Planung von Windeln, Packungen und Kosten über einen Zeitraum."
+    />
+    <link rel="canonical" href="https://babytool.app/tools/windelrechner/" />
+    <meta property="og:title" content="Windel-Rechner: Bedarf und Kosten planen" />
+    <meta
+      property="og:description"
+      content="Windel-Rechner fuer Bedarf, Packungen und Kosten auf Basis von Alter, Zeitraum und Reserve."
+    />
+    <meta property="og:url" content="https://babytool.app/tools/windelrechner/" />
+    <meta property="og:type" content="website" />
+    <script src="../../assets/js/analytics-consent.js"></script>
+    <link rel="stylesheet" href="../../assets/css/main.css" />
+    <link rel="stylesheet" href="./windelrechner.css" />
+  </head>
+  <body class="windelrechner-page">
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="../../index.html">BabyTools</a>
+        <button class="menu-toggle" type="button" aria-label="Menue oeffnen" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>☰</button>
+        <nav id="site-menu" class="site-nav" aria-label="Hauptnavigation" data-site-menu>
+          <section class="menu-section" aria-label="Tools">
+            <a class="menu-main-link" data-nav="tools" href="../../index.html#tools-heading">Tools</a>
+            <div class="menu-links">
+              <a href="../../tools/babywetter/">BabyWetter</a>
+              <a href="../../tools/windelrechner/">Windel-Rechner</a>
+            </div>
+          </section>
+          <section class="menu-section" aria-label="Ratgeber">
+            <a class="menu-main-link" data-nav="ratgeber" href="../../index.html#ratgeber-heading">Ratgeber</a>
+            <div class="menu-links">
+              <a href="../../baby-richtig-anziehen-temperatur/">Baby richtig anziehen</a>
+              <a href="../../windelbedarf-baby/">Windelbedarf im 1. Jahr</a>
+              <a href="../../baby-anziehen-nachts-temperatur/">Baby nachts richtig anziehen</a>
+              <a href="../../windeln-pro-monat-baby/">Windeln pro Monat</a>
+            </div>
+          </section>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="card intro-card">
+        <h1>Windel-Rechner</h1>
+        <p>
+          Plane den Windelbedarf für einen Zeitraum inkl. Reserve, Anzahl Packungen
+          und Kosten.
+        </p>
+      </section>
+
+      <section class="card" aria-labelledby="calc-heading">
+        <h2 id="calc-heading">Eingaben</h2>
+        <form id="calcForm" class="form-grid" novalidate>
+          <div class="field">
+            <p class="choice-title">Altersklasse</p>
+            <div class="age-picker">
+              <select id="ageClassSelect" class="age-select" aria-label="Altersklasse auswählen">
+                <option value="newborn" selected>Neugeboren (0-2 Monate)</option>
+                <option value="infant">Säugling (3-5 Monate)</option>
+                <option value="baby">Baby (6-11 Monate)</option>
+                <option value="toddler-1">Kleinkind (12-23 Monate)</option>
+                <option value="toddler-2">Kleinkind (24+ Monate)</option>
+              </select>
+
+              <div class="choice-group age-buttons" role="radiogroup" aria-label="Altersklasse">
+                <button
+                  type="button"
+                  class="choice-btn is-active"
+                  data-target="ageClass"
+                  data-value="newborn"
+                  aria-pressed="true"
+                >
+                  Neugeboren (0-2)
+                </button>
+                <button
+                  type="button"
+                  class="choice-btn"
+                  data-target="ageClass"
+                  data-value="infant"
+                  aria-pressed="false"
+                >
+                  Säugling (3-5)
+                </button>
+                <button
+                  type="button"
+                  class="choice-btn"
+                  data-target="ageClass"
+                  data-value="baby"
+                  aria-pressed="false"
+                >
+                  Baby (6-11)
+                </button>
+                <button
+                  type="button"
+                  class="choice-btn"
+                  data-target="ageClass"
+                  data-value="toddler-1"
+                  aria-pressed="false"
+                >
+                  Kleinkind (12-23)
+                </button>
+                <button
+                  type="button"
+                  class="choice-btn"
+                  data-target="ageClass"
+                  data-value="toddler-2"
+                  aria-pressed="false"
+                >
+                  Kleinkind (24+)
+                </button>
+              </div>
+            </div>
+            <input id="ageClass" type="hidden" value="newborn" />
+            <small id="ageHint" class="field-hint"></small>
+          </div>
+
+          <div class="field">
+            <label for="customPerDay">Eigener Verbrauch pro Tag (optional)</label>
+            <div class="inline-input">
+              <input
+                id="customPerDay"
+                type="number"
+                min="0"
+                max="20"
+                step="0.5"
+                placeholder="z. B. 7.5"
+              />
+              <span class="inline-suffix">/ Tag</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="periodDays">Zeitraum (Tage)</label>
+            <div class="choice-group period-group" role="group" aria-label="Schnellwahl Zeitraum">
+              <button type="button" class="choice-btn period-btn" data-target="periodDays" data-value="7">
+                7
+              </button>
+              <button type="button" class="choice-btn period-btn" data-target="periodDays" data-value="14">
+                14
+              </button>
+              <button
+                type="button"
+                class="choice-btn period-btn is-active"
+                data-target="periodDays"
+                data-value="30"
+              >
+                30
+              </button>
+              <button type="button" class="choice-btn period-btn" data-target="periodDays" data-value="90">
+                90
+              </button>
+            </div>
+            <input id="periodDays" type="number" min="1" value="30" required />
+            <small class="field-hint">Beliebig anpassbar, Schnellwahl ist optional.</small>
+          </div>
+
+          <div class="field">
+            <label for="packSize">Windeln pro Packung</label>
+            <input id="packSize" type="number" min="1" value="44" required />
+          </div>
+
+          <div class="field">
+            <label for="packPrice">Preis pro Packung (EUR)</label>
+            <input id="packPrice" type="number" min="0" step="0.01" value="13.99" required />
+          </div>
+
+          <div class="field">
+            <label for="reserve">Reserve in %</label>
+            <input id="reserve" type="number" min="0" max="100" value="0" required />
+          </div>
+
+          <div class="checkbox-row">
+            <input id="nightExtra" type="checkbox" />
+            <label for="nightExtra">1 zusätzliche Nachtwindel pro Tag einplanen</label>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Berechnen</button>
+            <p id="status" class="status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </section>
+
+      <section class="card" aria-labelledby="result-heading">
+        <h2 id="result-heading">Ergebnis</h2>
+        <div id="emptyState" class="empty">Noch keine Berechnung vorhanden.</div>
+        <div id="result" class="hidden">
+          <p id="summary" class="summary"></p>
+
+          <div class="metrics">
+            <article class="metric">
+              <p class="metric-label">Windeln gesamt</p>
+              <p id="outTotalDiapers" class="metric-value">0</p>
+            </article>
+            <article class="metric">
+              <p class="metric-label">Packungen</p>
+              <p id="outPacks" class="metric-value">0</p>
+            </article>
+            <article class="metric">
+              <p class="metric-label">Gesamtkosten</p>
+              <p id="outTotalCost" class="metric-value">0 EUR</p>
+            </article>
+            <article class="metric">
+              <p class="metric-label">Kosten / Tag</p>
+              <p id="outPerDay" class="metric-value">0 EUR</p>
+            </article>
+            <article class="metric">
+              <p class="metric-label">Kosten / Windel</p>
+              <p id="outPerDiaper" class="metric-value">0 EUR</p>
+            </article>
+            <article class="metric">
+              <p class="metric-label">Geplanter Verbrauch / Tag</p>
+              <p id="outPlannedPerDay" class="metric-value">0</p>
+            </article>
+          </div>
+
+          <h3>Kauftipp</h3>
+          <p id="tip" class="tip"></p>
+        </div>
+      </section>
+
+      <aside class="card related-tools" aria-label="Passende Ratgeber">
+        <h2>Passende Ratgeber</h2>
+        <p><a href="../../windelbedarf-baby/">Windelbedarf im 1. Jahr mit Tabelle und Rechner</a></p>
+        <p><a href="../../windeln-pro-monat-baby/">Wie viele Windeln pro Monat braucht ein Baby?</a></p>
+        <p><a href="../../baby-richtig-anziehen-temperatur/">Baby richtig anziehen bei jeder Temperatur</a></p>
+        <p><a href="../../baby-anziehen-nachts-temperatur/">Baby nachts richtig anziehen nach Temperatur</a></p>
+      </aside>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-line">
+        <small>&copy; <span class="js-year"></span> BabyTools</small>
+        <div class="footer-links" aria-label="Rechtliches">
+          <a href="../../impressum/">Impressum</a>
+          <a href="../../datenschutz/">Datenschutz</a>
+          <a href="../../datenschutz/#affiliate-werbung">Affiliate-Hinweis</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+    <script src="./windelrechner.js"></script>
+  </body>
+</html>

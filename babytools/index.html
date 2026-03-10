@@ -3,142 +3,128 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BabyTools - BabyWetter</title>
+    <title>BabyTools: Tools & Ratgeber für Eltern</title>
     <meta
       name="description"
-      content="BabyWetter hilft mit einer einfachen Outfit-Empfehlung für Babys basierend auf Wetter und Alter."
+      content="BabyTools bietet praktische Tools und Ratgeber fuer Eltern: Babywetter, Windel-Rechner, Kleidung nach Temperatur und Windelbedarf im 1. Jahr."
     />
-    <link rel="stylesheet" href="style.css" />
+    <script src="./assets/js/analytics-consent.js"></script>
+    <link rel="stylesheet" href="./assets/css/main.css" />
   </head>
   <body>
-    <main class="page">
-      <header class="hero">
-        <p class="eyebrow">BabyTools</p>
-        <h1>BabyWetter - Was soll mein Baby heute anziehen?</h1>
-        <p class="lead">
-          Nutze deinen Standort oder suche einen Ort und erhalte eine klare
-          Zwiebellook-Empfehlung.
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="./index.html">BabyTools</a>
+        <button class="menu-toggle" type="button" aria-label="Menue oeffnen" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>☰</button>
+        <nav id="site-menu" class="site-nav" aria-label="Hauptnavigation" data-site-menu>
+          <section class="menu-section" aria-label="Tools">
+            <a class="menu-main-link" data-nav="tools" href="./index.html#tools-heading">Tools</a>
+            <div class="menu-links">
+              <a href="./tools/babywetter/">BabyWetter</a>
+              <a href="./tools/windelrechner/">Windel-Rechner</a>
+            </div>
+          </section>
+          <section class="menu-section" aria-label="Ratgeber">
+            <a class="menu-main-link" data-nav="ratgeber" href="./index.html#ratgeber-heading">Ratgeber</a>
+            <div class="menu-links">
+              <a href="./baby-richtig-anziehen-temperatur/">Baby richtig anziehen</a>
+              <a href="./windelbedarf-baby/">Windelbedarf im 1. Jahr</a>
+              <a href="./baby-anziehen-nachts-temperatur/">Baby nachts richtig anziehen</a>
+              <a href="./windeln-pro-monat-baby/">Windeln pro Monat</a>
+            </div>
+          </section>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container stack-lg">
+      <section class="hero card">
+        <h1>BabyTools</h1>
+        <p>
+          Schnelle Tools fuer Eltern - direkt nutzen, ohne Registrierung.
         </p>
-      </header>
-
-      <section class="card" aria-labelledby="input-heading">
-        <h2 id="input-heading">Wetter und Alter</h2>
-
-        <div class="row">
-          <button id="geoBtn" type="button">Standort verwenden</button>
-          <p id="status" class="status" role="status" aria-live="polite"></p>
-        </div>
-
-        <div class="search-wrap">
-          <label class="search-label" for="locationQuery">Standort suchen</label>
-          <div class="search-controls">
-            <input
-              id="locationQuery"
-              type="text"
-              placeholder="z. B. Berlin, Hamburg, Muenchen"
-              autocomplete="off"
-            />
-            <button id="searchBtn" type="button">Ort suchen</button>
-          </div>
-          <div id="resultsLabel" class="hidden">
-            <p class="results-title">Treffer</p>
-            <div id="locationResults" class="result-buttons" role="listbox"></div>
-          </div>
-        </div>
-
-        <form id="weatherForm" novalidate>
-          <div class="weather-view" aria-live="polite">
-            <div class="weather-card">
-              <p class="weather-symbol" aria-hidden="true">🌡️</p>
-              <p class="weather-label">Temperatur</p>
-              <p id="tempValue" class="weather-value">--.- °C</p>
-            </div>
-            <div class="weather-card">
-              <p class="weather-symbol" aria-hidden="true">💨</p>
-              <p class="weather-label">Wind</p>
-              <p id="windValue" class="weather-value">--.- km/h</p>
-            </div>
-            <div class="weather-card">
-              <p class="weather-symbol" aria-hidden="true">🌧️</p>
-              <p class="weather-label">Regen</p>
-              <p id="rainValue" class="weather-value">--.- mm/h</p>
-            </div>
-            <div class="weather-card">
-              <p id="conditionSymbol" class="weather-symbol" aria-hidden="true">☁️</p>
-              <p class="weather-label">Bedingung</p>
-              <p id="conditionValue" class="weather-value">Unbekannt</p>
-            </div>
-          </div>
-
-          <div class="grid">
-
-            <div class="choice-block">
-              <p class="choice-title">Alter</p>
-              <div class="choice-group" role="radiogroup" aria-label="Alter">
-                <button type="button" class="choice-btn" data-target="age" data-value="newborn" aria-pressed="false">Neugeboren (0-3)</button>
-                <button type="button" class="choice-btn is-active" data-target="age" data-value="baby" aria-pressed="true">Baby (4-12)</button>
-                <button type="button" class="choice-btn" data-target="age" data-value="toddler" aria-pressed="false">Kleinkind (1-3)</button>
-              </div>
-              <input id="age" type="hidden" value="baby" />
-            </div>
-
-            <div class="choice-block">
-              <p class="choice-title">Situation</p>
-              <div class="choice-group" role="radiogroup" aria-label="Situation">
-                <button type="button" class="choice-btn" data-target="situation" data-value="stroller" aria-pressed="false">Kinderwagen</button>
-                <button type="button" class="choice-btn is-active" data-target="situation" data-value="active" aria-pressed="true">Normal draussen</button>
-                <button type="button" class="choice-btn" data-target="situation" data-value="carrier" aria-pressed="false">Trage</button>
-              </div>
-              <input id="situation" type="hidden" value="active" />
-            </div>
-          </div>
-
-          <button id="recommendBtn" class="primary" type="submit" disabled>
-            Empfehlung anzeigen
-          </button>
-        </form>
-      </section>
-
-      <section class="card" aria-labelledby="result-heading">
-        <h2 id="result-heading">Empfehlung</h2>
-
-        <div id="emptyState" class="empty">Noch keine Empfehlung berechnet.</div>
-
-        <div id="result" class="hidden">
-          <div class="metric-cards">
-            <article class="metric-card">
-              <p class="metric-icon" aria-hidden="true">🌡️</p>
-              <p class="metric-label">Temperatur</p>
-              <p class="metric-value"><span id="outTemp"></span> °C</p>
-            </article>
-            <article class="metric-card">
-              <p class="metric-icon" aria-hidden="true">🍃</p>
-              <p class="metric-label">Gefuehlt</p>
-              <p class="metric-value"><span id="outFeels"></span> °C</p>
-            </article>
-            <article class="metric-card">
-              <p id="riskIcon" class="metric-icon" aria-hidden="true">✅</p>
-              <p class="metric-label">Risiko</p>
-              <p class="metric-value"><span id="riskBadge" class="badge"></span></p>
-            </article>
-          </div>
-
-          <p id="topRecommendation" class="top-reco"></p>
-
-          <h3>Draußen (unterwegs)</h3>
-          <ol id="outfitList" class="layer-list"></ol>
-
-          <h3>Hinweise</h3>
-          <div id="tipsList" class="tips-chips"></div>
+        <div class="hero-quicklinks" aria-label="Schnellzugriff Tools">
+          <a class="tool-cta" href="./tools/babywetter/">Babywetter starten</a>
+          <a class="tool-cta" href="./tools/windelrechner/">Windel-Rechner starten</a>
         </div>
       </section>
 
-      <footer class="disclaimer">
-        Hinweis: Diese Empfehlungen ersetzen keine medizinische Beratung. Im Zweifel
-        bitte Kinderarzt oder Hebamme kontaktieren.
-      </footer>
+      <section class="home-section stack-md" aria-labelledby="tools-heading">
+        <div class="home-section-head">
+          <h2 id="tools-heading">Tools</h2>
+        </div>
+        <div class="tool-grid tool-grid-primary">
+          <a class="tool-card tool-card-primary" href="./tools/babywetter/">
+            <h3>BabyWetter</h3>
+            <p>Outfit-Empfehlung für draussen anhand von Temperatur, Wind und Regen.</p>
+            <span class="tool-cta">Tool öffnen</span>
+          </a>
+
+          <a class="tool-card tool-card-primary" href="./tools/windelrechner/">
+            <h3>Windel-Rechner</h3>
+            <p>Plane Windelbedarf, Packungen und Kosten für deinen Zeitraum.</p>
+            <span class="tool-cta">Tool öffnen</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="home-section stack-md home-secondary" aria-labelledby="hub-heading">
+        <div class="home-section-head">
+          <h2 id="hub-heading">Weiterfuehrende Inhalte</h2>
+        </div>
+        <div class="hub-grid">
+          <section class="hub-block" aria-labelledby="hub-ratgeber-heading">
+            <h3 id="hub-ratgeber-heading">Top-Ratgeber</h3>
+            <ol>
+              <li><a href="./baby-richtig-anziehen-temperatur/">Baby richtig anziehen bei jeder Temperatur</a></li>
+              <li><a href="./windelbedarf-baby/">Windelbedarf im 1. Jahr: Tabelle und Rechner</a></li>
+              <li><a href="./baby-anziehen-nachts-temperatur/">Baby nachts richtig anziehen nach Temperatur</a></li>
+              <li><a href="./windeln-pro-monat-baby/">Wie viele Windeln pro Monat braucht ein Baby?</a></li>
+            </ol>
+          </section>
+        </div>
+      </section>
+
+      <section class="home-section stack-md home-secondary" aria-labelledby="ratgeber-heading">
+        <div class="home-section-head">
+          <h2 id="ratgeber-heading">Ratgeber</h2>
+        </div>
+        <div class="tool-grid">
+          <a class="tool-card" href="./baby-richtig-anziehen-temperatur/">
+            <h3>Baby richtig anziehen</h3>
+            <p>Temperatur-Tabelle, Schichtenprinzip und Babywetter-Check.</p>
+            <span class="tool-cta">Ratgeber öffnen</span>
+          </a>
+          <a class="tool-card" href="./windelbedarf-baby/">
+            <h3>Windelbedarf im 1. Jahr</h3>
+            <p>Richtwerte nach Alter mit Tabelle und Windelrechner-Einbettung.</p>
+            <span class="tool-cta">Ratgeber öffnen</span>
+          </a>
+          <a class="tool-card" href="./baby-anziehen-nachts-temperatur/">
+            <h3>Baby nachts richtig anziehen</h3>
+            <p>Richtwerte fuer Schlafkleidung nach Raumtemperatur in der Nacht.</p>
+            <span class="tool-cta">Ratgeber öffnen</span>
+          </a>
+          <a class="tool-card" href="./windeln-pro-monat-baby/">
+            <h3>Wie viele Windeln pro Monat?</h3>
+            <p>Monatliche Richtwerte nach Alter plus Planung fuer Packungen.</p>
+            <span class="tool-cta">Ratgeber öffnen</span>
+          </a>
+        </div>
+      </section>
     </main>
 
-    <script src="app.js"></script>
+    <footer class="site-footer">
+      <div class="container footer-line">
+        <small>&copy; <span class="js-year"></span> BabyTools</small>
+        <div class="footer-links" aria-label="Rechtliches">
+          <a href="./impressum/">Impressum</a>
+          <a href="./datenschutz/">Datenschutz</a>
+          <a href="./datenschutz/#affiliate-werbung">Affiliate-Hinweis</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="./assets/js/main.js"></script>
   </body>
 </html>

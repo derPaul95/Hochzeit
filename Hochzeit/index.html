@@ -132,6 +132,23 @@
       text-align: center;
     }
 
+    .infoCard{
+      border: 1px solid var(--line);
+      border-radius: var(--radius2);
+      padding: 18px;
+      background:
+        radial-gradient(circle at top right, rgba(201, 170, 88, 0.12), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(250,247,239,0.98) 100%);
+      text-align: center;
+    }
+
+    .infoTitle{
+      margin: 0;
+      font-family: "Playfair Display", serif;
+      font-size: 1.35rem;
+      line-height: 1.15;
+    }
+
 
     .row{
       display: flex;
@@ -459,6 +476,18 @@
     </header>
 
     <div class="grid">
+      <section class="card">
+        <div class="cardBody">
+          <div class="infoCard" aria-label="Hinweis zur Fotogalerie">
+            <p class="infoTitle">Bereits hochgeladene Fotos ansehen</p>
+            <p class="meta" style="margin:8px 0 0;">Wenn ihr lieber durch die fertigen Bilder stöbern möchtet, findet ihr die Fotobox-Galerie auf der separaten Fotoseite.</p>
+            <div class="row">
+              <a class="btn" href="./fotos.html">Zur Fotogalerie</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="card">
         <div class="cardHead"></div>
         <div class="cardBody">
