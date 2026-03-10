@@ -255,24 +255,64 @@
     }
 
     @media (max-width: 600px){
-      .wrap{ padding: 20px 14px 24px; }
-      .tabs{ flex-direction: column; }
-      .tab{ width: 100%; }
-      .cardHead, .cardBody{ padding: 16px; }
-      .galleryCard{ padding: 0; }
-      .gateCard{ padding: 20px 16px; }
+      .wrap{
+        padding: calc(12px + env(safe-area-inset-top)) 12px 18px;
+      }
+      header{
+        gap: 6px;
+        margin-top: 0;
+        margin-bottom: 10px;
+      }
+      .couple{
+        font-size: 0.88rem;
+      }
+      h1{
+        font-size: 1.7rem;
+      }
+      .sub{
+        display: none;
+      }
+      .cardHead, .cardBody{
+        padding: 12px;
+      }
+      .eyebrow{
+        display: none;
+      }
+      .tabs{
+        justify-content: center;
+        margin-top: 0;
+      }
+      .tab{
+        width: auto;
+        min-width: 0;
+        padding: 10px 20px;
+      }
+      .galleryCard{
+        padding: 4px;
+      }
+      .gateCard{
+        padding: 18px 14px;
+      }
       .gateForm{
         flex-direction: column;
         align-items: stretch;
       }
       .galleryActions{
-        justify-content: stretch;
-        margin-bottom: 12px;
+        justify-content: center;
+        margin-bottom: 8px;
       }
-      .btn{ width: 100%; }
+      .btn{
+        width: auto;
+        max-width: 100%;
+        font-size: 0.92rem;
+        padding: 10px 14px;
+      }
+      .galleryFrameWrap{
+        border-radius: 14px;
+      }
       .galleryFrame{
-        height: calc(100vh - 210px);
-        min-height: 520px;
+        height: calc(100vh - 165px);
+        min-height: 540px;
       }
     }
 
