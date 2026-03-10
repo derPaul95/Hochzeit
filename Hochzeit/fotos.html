@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hochzeit – Fotos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#eef3ef;
+      --bg2:#e6efe9;
+      --card:#ffffff;
+      --text:#1f2933;
+      --muted:#6b7280;
+      --line:#e8e5dc;
+      --gold:#c9aa58;
+      --gold-soft:#efe2b8;
+      --shadow: 0 18px 50px rgba(18, 23, 38, 0.08);
+      --shadow2: 0 10px 24px rgba(18, 23, 38, 0.07);
+      --radius: 18px;
+      --radius2: 14px;
+    }
+
+    *{ box-sizing: border-box; }
+
+    body{
+      margin: 0;
+      font-family: "Source Sans 3", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 15% 10%, var(--bg1), transparent 60%),
+        radial-gradient(1000px 600px at 85% 0%, var(--bg2), transparent 55%),
+        linear-gradient(180deg, #f4f8f5 0%, #eef3ef 100%);
+      min-height: 100vh;
+    }
+
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 30px 18px 32px;
+    }
+
+    header{
+      display: grid;
+      gap: 10px;
+      text-align: center;
+      margin-top: 12px;
+      margin-bottom: 16px;
+    }
+
+    .couple{
+      margin: 0;
+      font-size: 1.1rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-family: "Playfair Display", serif;
+    }
+
+    h1{
+      margin: 0;
+      font-family: "Playfair Display", serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-size: clamp(2rem, 3.5vw, 2.7rem);
+      line-height: 1.05;
+    }
+
+    .sub{
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.5;
+      max-width: 50ch;
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      border-top: 3px solid var(--gold-soft);
+    }
+
+    .cardHead{
+      padding: 20px 20px 0;
+    }
+
+    .cardBody{
+      padding: 20px;
+    }
+
+    .eyebrow{
+      display: inline-flex;
+      justify-content: center;
+      color: #6b5a2a;
+      font-size: 0.95rem;
+      background: linear-gradient(180deg, var(--gold-soft), #fff);
+      border: 1px solid var(--gold-soft);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-weight: 600;
+      width: fit-content;
+    }
+
+    .tabs{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .tab{
+      appearance: none;
+      border: 1px solid var(--gold-soft);
+      background: #fff;
+      color: var(--muted);
+      padding: 11px 18px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 1rem;
+      box-shadow: var(--shadow2);
+      min-width: 120px;
+      cursor: pointer;
+    }
+
+    .tab[aria-selected="true"]{
+      color: var(--text);
+      border-color: var(--gold);
+      background: linear-gradient(180deg, #fffaf0 0%, #ffffff 100%);
+    }
+
+    .panel{
+      display: block;
+    }
+
+    .galleryCard{
+      padding: 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(250,247,239,0.98) 100%);
+    }
+
+    .galleryActions{
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+
+    .gateCard{
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(250,247,239,0.98) 100%);
+      box-shadow: var(--shadow2);
+      padding: 24px;
+      text-align: center;
+    }
+
+    .gateTitle{
+      margin: 0;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(1.4rem, 2vw, 1.8rem);
+      line-height: 1.1;
+    }
+
+    .gateText{
+      margin: 10px auto 0;
+      max-width: 34ch;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .gateForm{
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .gateInput{
+      width: min(320px, 100%);
+      border: 1px solid var(--gold-soft);
+      border-radius: 999px;
+      padding: 12px 16px;
+      font: inherit;
+      color: var(--text);
+      background: #fff;
+      box-shadow: var(--shadow2);
+      outline: none;
+    }
+
+    .gateInput:focus{
+      border-color: var(--gold);
+      box-shadow: var(--shadow);
+    }
+
+    .gateError{
+      min-height: 1.4em;
+      margin: 10px 0 0;
+      color: #b42318;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .galleryFrameWrap{
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: var(--shadow2);
+    }
+
+    .btn{
+      appearance: none;
+      border: 1px solid var(--gold-soft);
+      background: #fff;
+      color: var(--text);
+      padding: 11px 16px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.98rem;
+      cursor: pointer;
+      box-shadow: var(--shadow2);
+      transition: transform 0.08s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn:hover{ box-shadow: var(--shadow); }
+    .btn:active{ transform: translateY(1px); }
+
+    .galleryFrame{
+      width: 100%;
+      height: calc(100vh - 250px);
+      min-height: 720px;
+      border: 0;
+      display: block;
+      background: #fff;
+    }
+
+    @media (max-width: 900px){
+      .wrap{ max-width: 100%; }
+      .galleryFrame{
+        height: calc(100vh - 220px);
+        min-height: 620px;
+      }
+    }
+
+    @media (max-width: 600px){
+      .wrap{ padding: 20px 14px 24px; }
+      .tabs{ flex-direction: column; }
+      .tab{ width: 100%; }
+      .cardHead, .cardBody{ padding: 16px; }
+      .galleryCard{ padding: 0; }
+      .gateCard{ padding: 20px 16px; }
+      .gateForm{
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .galleryActions{
+        justify-content: stretch;
+        margin-bottom: 12px;
+      }
+      .btn{ width: 100%; }
+      .galleryFrame{
+        height: calc(100vh - 210px);
+        min-height: 520px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <p class="couple">Celine &amp; Paul · 07.03.2026</p>
+      <h1>Fotogalerie</h1>
+      <p class="sub">Die Bilder stehen im Mittelpunkt. Weitere Galerien koennen spaeter ueber dieselbe Tab-Struktur ergaenzt werden.</p>
+    </header>
+
+    <section class="card" aria-labelledby="tabs-title">
+      <div class="cardHead">
+        <p class="eyebrow" id="tabs-title">Foto Galerie</p>
+        <div class="tabs" id="tabs" role="tablist" aria-labelledby="tabs-title"></div>
+      </div>
+      <div class="cardBody galleryCard" id="tab-panels"></div>
+    </section>
+  </div>
+
+  <script>
+    const GOOGLE_DRIVE_FOLDER_ID = "19oUPydhidpGMb23OshHPoUwnxJmCQoz8";
+    const GALLERY_PASSWORD = "pizza";
+    const GALLERY_SESSION_KEY = "hochzeit-fotos-unlocked";
+    // Inferenz: Fuer oeffentlich freigegebene Ordner laesst sich die Drive-Ordneransicht so direkt einbetten.
+    const GOOGLE_DRIVE_EMBED_URL = `https://drive.google.com/embeddedfolderview?id=${GOOGLE_DRIVE_FOLDER_ID}#grid`;
+    const GOOGLE_DRIVE_FOLDER_URL = `https://drive.google.com/drive/folders/${GOOGLE_DRIVE_FOLDER_ID}`;
+
+    const PHOTO_SECTIONS = [
+      {
+        id: "fotobox",
+        label: "Fotobox",
+        title: "Fotobox-Galerie",
+        embedUrl: GOOGLE_DRIVE_EMBED_URL
+      }
+      // Weitere Tabs koennen spaeter hier ergaenzt werden, z. B.:
+      // { id: "feiern", label: "Feiern", embedUrl: "..." }
+      // { id: "standesamt", label: "Standesamt", embedUrl: "..." }
+    ];
+
+    const tabsEl = document.getElementById("tabs");
+    const panelsEl = document.getElementById("tab-panels");
+    let galleryUnlocked = sessionStorage.getItem(GALLERY_SESSION_KEY) === "true";
+
+    function createTab(section, index){
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "tab";
+      button.id = `tab-${section.id}`;
+      button.setAttribute("role", "tab");
+      button.setAttribute("aria-selected", index === 0 ? "true" : "false");
+      button.setAttribute("aria-controls", `panel-${section.id}`);
+      button.textContent = section.label;
+      button.addEventListener("click", () => activateTab(section.id));
+      return button;
+    }
+
+    function createPanel(section, index){
+      const panel = document.createElement("section");
+      panel.className = "panel";
+      panel.id = `panel-${section.id}`;
+      panel.setAttribute("role", "tabpanel");
+      panel.setAttribute("aria-labelledby", `tab-${section.id}`);
+      panel.hidden = index !== 0;
+      panel.innerHTML = renderPanelContent(section);
+
+      if(!galleryUnlocked){
+        const form = panel.querySelector(".gateForm");
+        const input = panel.querySelector(".gateInput");
+        const error = panel.querySelector(".gateError");
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          if(input.value === GALLERY_PASSWORD){
+            galleryUnlocked = true;
+            sessionStorage.setItem(GALLERY_SESSION_KEY, "true");
+            rerenderPanels();
+            return;
+          }
+          error.textContent = "Passwort falsch. Bitte erneut versuchen.";
+          input.select();
+        });
+      }
+
+      return panel;
+    }
+
+    function renderPanelContent(section){
+      if(!galleryUnlocked){
+        return `
+          <div class="gateCard">
+            <h2 class="gateTitle">${section.title}</h2>
+            <p class="gateText">Bitte Passwort eingeben, um die Galerie zu oeffnen.</p>
+            <form class="gateForm">
+              <input class="gateInput" type="password" inputmode="text" autocomplete="current-password" placeholder="Passwort" aria-label="Passwort fuer Galerie" />
+              <button class="btn" type="submit">Galerie öffnen</button>
+            </form>
+            <p class="gateError" aria-live="polite"></p>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="galleryActions">
+          <a class="btn" href="${GOOGLE_DRIVE_FOLDER_URL}" target="_blank" rel="noreferrer noopener">Ordner in Google Drive öffnen</a>
+        </div>
+        <div class="galleryFrameWrap">
+          <iframe
+            class="galleryFrame"
+            src="${section.embedUrl}"
+            title="${section.title}"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+      `;
+    }
+
+    function rerenderPanels(){
+      for(const section of PHOTO_SECTIONS){
+        const panel = document.getElementById(`panel-${section.id}`);
+        const isHidden = panel.hidden;
+        const fresh = createPanel(section, isHidden ? 1 : 0);
+        fresh.hidden = isHidden;
+        panel.replaceWith(fresh);
+      }
+    }
+
+    function activateTab(id){
+      for(const section of PHOTO_SECTIONS){
+        const isActive = section.id === id;
+        const tab = document.getElementById(`tab-${section.id}`);
+        const panel = document.getElementById(`panel-${section.id}`);
+        tab.setAttribute("aria-selected", isActive ? "true" : "false");
+        panel.hidden = !isActive;
+      }
+    }
+
+    for(const [index, section] of PHOTO_SECTIONS.entries()){
+      tabsEl.appendChild(createTab(section, index));
+      panelsEl.appendChild(createPanel(section, index));
+    }
+  </script>
+</body>
+</html>
