@@ -40,9 +40,9 @@
     }
 
     .wrap{
-      max-width: 980px;
+      max-width: 1180px;
       margin: 0 auto;
-      padding: 30px 18px 32px;
+      padding: 26px 18px 36px;
     }
 
     header{
@@ -50,7 +50,7 @@
       gap: 10px;
       text-align: center;
       margin-top: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     .couple{
@@ -76,7 +76,7 @@
       color: var(--muted);
       font-size: 1rem;
       line-height: 1.5;
-      max-width: 50ch;
+      max-width: 56ch;
     }
 
     .card{
@@ -88,13 +88,8 @@
       border-top: 3px solid var(--gold-soft);
     }
 
-    .cardHead{
-      padding: 20px 20px 0;
-    }
-
-    .cardBody{
-      padding: 20px;
-    }
+    .cardHead{ padding: 20px 20px 0; }
+    .cardBody{ padding: 20px; }
 
     .eyebrow{
       display: inline-flex;
@@ -136,22 +131,50 @@
       background: linear-gradient(180deg, #fffaf0 0%, #ffffff 100%);
     }
 
-    .panel{
-      display: block;
-    }
+    .panel{ display: block; }
 
     .galleryCard{
-      padding: 10px;
+      padding: 14px;
       background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(250,247,239,0.98) 100%);
     }
 
     .galleryActions{
       display: flex;
-      justify-content: flex-end;
-      margin-bottom: 10px;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
     }
 
-    .gateCard{
+    .galleryHint{
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .btn{
+      appearance: none;
+      border: 1px solid var(--gold-soft);
+      background: #fff;
+      color: var(--text);
+      padding: 11px 16px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.98rem;
+      cursor: pointer;
+      box-shadow: var(--shadow2);
+      transition: transform 0.08s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn:hover{ box-shadow: var(--shadow); }
+    .btn:active{ transform: translateY(1px); }
+
+    .gateCard,
+    .stateCard{
       border: 1px solid var(--line);
       border-radius: 16px;
       background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(250,247,239,0.98) 100%);
@@ -160,16 +183,18 @@
       text-align: center;
     }
 
-    .gateTitle{
+    .gateTitle,
+    .stateTitle{
       margin: 0;
       font-family: "Playfair Display", serif;
-      font-size: clamp(1.4rem, 2vw, 1.8rem);
+      font-size: clamp(1.35rem, 2vw, 1.8rem);
       line-height: 1.1;
     }
 
-    .gateText{
+    .gateText,
+    .stateText{
       margin: 10px auto 0;
-      max-width: 34ch;
+      max-width: 36ch;
       color: var(--muted);
       font-size: 1rem;
       line-height: 1.5;
@@ -207,50 +232,140 @@
       font-weight: 600;
     }
 
-    .galleryFrameWrap{
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      overflow: hidden;
-      background: #fff;
-      box-shadow: var(--shadow2);
+    .galleryGrid{
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
     }
 
-    .btn{
+    .photoCard{
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: var(--shadow2);
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .photoThumb{
+      aspect-ratio: 1 / 1;
+      background: #f6f6f2;
+    }
+
+    .photoThumb img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photoMeta{
+      padding: 10px 12px 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .photoName{
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .photoAction{
+      color: #6b5a2a;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .photoDownload{
       appearance: none;
+      border: 1px solid var(--gold-soft);
+      background: linear-gradient(180deg, #fff, #faf7ef);
+      color: #6b5a2a;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: var(--shadow2);
+      white-space: nowrap;
+    }
+
+    .lightbox{
+      position: fixed;
+      inset: 0;
+      background: rgba(17, 24, 39, 0.82);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 60;
+    }
+
+    .lightbox.show{ display: flex; }
+
+    .lightboxDialog{
+      width: min(1080px, 100%);
+      max-height: 92vh;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #111827;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .lightboxMedia{
+      background: #111827;
+      display: grid;
+      place-items: center;
+      max-height: 78vh;
+    }
+
+    .lightboxMedia img{
+      max-width: 100%;
+      max-height: 78vh;
+      display: block;
+      object-fit: contain;
+    }
+
+    .lightboxBar{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.98);
+    }
+
+    .lightboxName{
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .lightboxClose{
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
       border: 1px solid var(--gold-soft);
       background: #fff;
       color: var(--text);
-      padding: 11px 16px;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: 0.98rem;
       cursor: pointer;
       box-shadow: var(--shadow2);
-      transition: transform 0.08s ease, box-shadow 0.2s ease;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .btn:hover{ box-shadow: var(--shadow); }
-    .btn:active{ transform: translateY(1px); }
-
-    .galleryFrame{
-      width: 100%;
-      height: calc(100vh - 250px);
-      min-height: 720px;
-      border: 0;
-      display: block;
-      background: #fff;
+      font-size: 1.15rem;
     }
 
     @media (max-width: 900px){
       .wrap{ max-width: 100%; }
-      .galleryFrame{
-        height: calc(100vh - 220px);
-        min-height: 620px;
+      .galleryGrid{
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       }
     }
 
@@ -263,56 +378,44 @@
         margin-top: 0;
         margin-bottom: 10px;
       }
-      .couple{
-        font-size: 0.88rem;
+      .couple{ font-size: 0.88rem; }
+      h1{ font-size: 1.7rem; }
+      .sub{ display: none; }
+      .cardHead, .cardBody{ padding: 12px; }
+      .eyebrow{ display: none; }
+      .tabs{ justify-content: center; margin-top: 0; }
+      .tab{ width: auto; min-width: 0; padding: 10px 20px; }
+      .galleryCard{ padding: 4px; }
+      .galleryActions{
+        flex-direction: column;
+        align-items: stretch;
+        margin-bottom: 10px;
       }
-      h1{
-        font-size: 1.7rem;
+      .btn{
+        width: 100%;
+        font-size: 0.92rem;
+        padding: 10px 14px;
       }
-      .sub{
-        display: none;
-      }
-      .cardHead, .cardBody{
-        padding: 12px;
-      }
-      .eyebrow{
-        display: none;
-      }
-      .tabs{
-        justify-content: center;
-        margin-top: 0;
-      }
-      .tab{
-        width: auto;
-        min-width: 0;
-        padding: 10px 20px;
-      }
-      .galleryCard{
-        padding: 4px;
-      }
-      .gateCard{
-        padding: 18px 14px;
-      }
+      .gateCard,
+      .stateCard{ padding: 18px 14px; }
       .gateForm{
         flex-direction: column;
         align-items: stretch;
       }
-      .galleryActions{
-        justify-content: center;
-        margin-bottom: 8px;
+      .galleryGrid{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
       }
-      .btn{
-        width: auto;
-        max-width: 100%;
-        font-size: 0.92rem;
-        padding: 10px 14px;
+      .photoMeta{
+        padding: 8px 10px 10px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
       }
-      .galleryFrameWrap{
-        border-radius: 14px;
-      }
-      .galleryFrame{
-        height: calc(100vh - 165px);
-        min-height: 540px;
+      .lightbox{ padding: 12px; }
+      .lightboxBar{
+        flex-wrap: wrap;
+        align-items: center;
       }
     }
 
@@ -326,7 +429,7 @@
     <header>
       <p class="couple">Celine &amp; Paul · 07.03.2026</p>
       <h1>Fotogalerie</h1>
-      <p class="sub">Die Bilder stehen im Mittelpunkt. Weitere Galerien koennen spaeter ueber dieselbe Tab-Struktur ergaenzt werden.</p>
+      <p class="sub">Die Bilder werden direkt auf der Seite geladen. Weitere Galerien koennen spaeter ueber dieselbe Tab-Struktur ergaenzt werden.</p>
     </header>
 
     <section class="card" aria-labelledby="tabs-title">
@@ -338,29 +441,50 @@
     </section>
   </div>
 
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <div class="lightboxDialog" role="dialog" aria-modal="true" aria-label="Bildansicht">
+      <div class="lightboxMedia">
+        <img id="lightboxImage" alt="" />
+      </div>
+      <div class="lightboxBar">
+        <div id="lightboxName" class="lightboxName"></div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <a id="lightboxDownload" class="btn" href="#" target="_blank" rel="noreferrer noopener">Herunterladen</a>
+          <button id="lightboxClose" class="lightboxClose" type="button" aria-label="Schließen">×</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    const GOOGLE_DRIVE_FOLDER_ID = "19oUPydhidpGMb23OshHPoUwnxJmCQoz8";
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbzN1v97vpadXLu76LhZ7Ag4HjhyCmS8xZs_cezJ3AxZ86KigMEXtdmSWdCGiwmR8NG-/exec";
+    const SECRET = "PAULCELINE";
     const GALLERY_PASSWORD = "pizza";
     const GALLERY_SESSION_KEY = "hochzeit-fotos-unlocked";
-    // Inferenz: Fuer oeffentlich freigegebene Ordner laesst sich die Drive-Ordneransicht so direkt einbetten.
-    const GOOGLE_DRIVE_EMBED_URL = `https://drive.google.com/embeddedfolderview?id=${GOOGLE_DRIVE_FOLDER_ID}#grid`;
-    const GOOGLE_DRIVE_FOLDER_URL = `https://drive.google.com/drive/folders/${GOOGLE_DRIVE_FOLDER_ID}`;
+    const GOOGLE_DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/19oUPydhidpGMb23OshHPoUwnxJmCQoz8";
 
     const PHOTO_SECTIONS = [
       {
         id: "fotobox",
         label: "Fotobox",
         title: "Fotobox-Galerie",
-        embedUrl: GOOGLE_DRIVE_EMBED_URL
+        folderId: "19oUPydhidpGMb23OshHPoUwnxJmCQoz8"
       }
-      // Weitere Tabs koennen spaeter hier ergaenzt werden, z. B.:
-      // { id: "feiern", label: "Feiern", embedUrl: "..." }
-      // { id: "standesamt", label: "Standesamt", embedUrl: "..." }
+      // Spaeter erweiterbar:
+      // { id: "feiern", label: "Feiern", title: "Feier", folderId: "..." }
+      // { id: "standesamt", label: "Standesamt", title: "Standesamt", folderId: "..." }
     ];
 
     const tabsEl = document.getElementById("tabs");
     const panelsEl = document.getElementById("tab-panels");
+    const lightboxEl = document.getElementById("lightbox");
+    const lightboxImageEl = document.getElementById("lightboxImage");
+    const lightboxNameEl = document.getElementById("lightboxName");
+    const lightboxDownloadEl = document.getElementById("lightboxDownload");
+    const lightboxCloseEl = document.getElementById("lightboxClose");
+
     let galleryUnlocked = sessionStorage.getItem(GALLERY_SESSION_KEY) === "true";
+    const galleryCache = new Map();
 
     function createTab(section, index){
       const button = document.createElement("button");
@@ -382,29 +506,12 @@
       panel.setAttribute("role", "tabpanel");
       panel.setAttribute("aria-labelledby", `tab-${section.id}`);
       panel.hidden = index !== 0;
-      panel.innerHTML = renderPanelContent(section);
-
-      if(!galleryUnlocked){
-        const form = panel.querySelector(".gateForm");
-        const input = panel.querySelector(".gateInput");
-        const error = panel.querySelector(".gateError");
-        form.addEventListener("submit", (event) => {
-          event.preventDefault();
-          if(input.value === GALLERY_PASSWORD){
-            galleryUnlocked = true;
-            sessionStorage.setItem(GALLERY_SESSION_KEY, "true");
-            rerenderPanels();
-            return;
-          }
-          error.textContent = "Passwort falsch. Bitte erneut versuchen.";
-          input.select();
-        });
-      }
-
+      panel.innerHTML = renderPanelContent(section, galleryCache.get(section.id));
+      bindPanelEvents(panel, section);
       return panel;
     }
 
-    function renderPanelContent(section){
+    function renderPanelContent(section, state){
       if(!galleryUnlocked){
         return `
           <div class="gateCard">
@@ -419,19 +526,103 @@
         `;
       }
 
+      const current = state || { status: "idle", images: [] };
+
+      if(current.status === "loading"){
+        return `
+          <div class="stateCard">
+            <h2 class="stateTitle">${section.title}</h2>
+            <p class="stateText">Die Bilder werden geladen...</p>
+          </div>
+        `;
+      }
+
+      if(current.status === "error"){
+        return `
+          <div class="stateCard">
+            <h2 class="stateTitle">${section.title}</h2>
+            <p class="stateText">${escapeHtml(current.message || "Die Galerie konnte nicht geladen werden.")}</p>
+            <div style="margin-top:16px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+              <button class="btn" type="button" data-retry="${section.id}">Erneut laden</button>
+              <a class="btn" href="${GOOGLE_DRIVE_FOLDER_URL}" target="_blank" rel="noreferrer noopener">Ordner in Google Drive öffnen</a>
+            </div>
+          </div>
+        `;
+      }
+
+      if(current.status === "ready" && current.images.length === 0){
+        return `
+          <div class="stateCard">
+            <h2 class="stateTitle">${section.title}</h2>
+            <p class="stateText">Aktuell sind in diesem Bereich noch keine Bilder verfuegbar.</p>
+          </div>
+        `;
+      }
+
       return `
         <div class="galleryActions">
+          <span class="galleryHint">${current.images.length} Bild${current.images.length === 1 ? "" : "er"} verfuegbar</span>
           <a class="btn" href="${GOOGLE_DRIVE_FOLDER_URL}" target="_blank" rel="noreferrer noopener">Ordner in Google Drive öffnen</a>
         </div>
-        <div class="galleryFrameWrap">
-          <iframe
-            class="galleryFrame"
-            src="${section.embedUrl}"
-            title="${section.title}"
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <div class="galleryGrid">
+          ${current.images.map((image, index) => `
+            <article class="photoCard" data-open-index="${index}" data-section-id="${section.id}">
+              <div class="photoThumb">
+                <img src="${escapeAttr(image.thumbUrl || image.url)}" alt="${escapeAttr(image.name)}" loading="lazy" />
+              </div>
+              <div class="photoMeta">
+                <span class="photoName">${escapeHtml(image.name)}</span>
+                <div style="display:flex; gap:8px; align-items:center;">
+                  <span class="photoAction">Ansehen</span>
+                  <a
+                    class="photoDownload"
+                    href="${escapeAttr(image.downloadUrl || image.fullUrl || image.thumbUrl || "#")}"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    data-download-link
+                  >Download</a>
+                </div>
+              </div>
+            </article>
+          `).join("")}
         </div>
       `;
+    }
+
+    function bindPanelEvents(panel, section){
+      if(!galleryUnlocked){
+        const form = panel.querySelector(".gateForm");
+        const input = panel.querySelector(".gateInput");
+        const error = panel.querySelector(".gateError");
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          if(input.value === GALLERY_PASSWORD){
+            galleryUnlocked = true;
+            sessionStorage.setItem(GALLERY_SESSION_KEY, "true");
+            rerenderPanels();
+            void loadGallery(section.id);
+            return;
+          }
+          error.textContent = "Passwort falsch. Bitte erneut versuchen.";
+          input.select();
+        });
+        return;
+      }
+
+      panel.querySelectorAll("[data-open-index]").forEach((el) => {
+        el.addEventListener("click", () => openLightbox(section.id, Number(el.getAttribute("data-open-index"))));
+      });
+
+      panel.querySelectorAll("[data-download-link]").forEach((el) => {
+        el.addEventListener("click", (event) => {
+          event.stopPropagation();
+        });
+      });
+
+      const retryBtn = panel.querySelector("[data-retry]");
+      if(retryBtn){
+        retryBtn.addEventListener("click", () => void loadGallery(section.id, true));
+      }
     }
 
     function rerenderPanels(){
@@ -444,6 +635,53 @@
       }
     }
 
+    async function loadGallery(sectionId, force = false){
+      const section = PHOTO_SECTIONS.find((item) => item.id === sectionId);
+      if(!section || !galleryUnlocked) return;
+
+      const current = galleryCache.get(sectionId);
+      if(current?.status === "ready" && !force) return;
+
+      galleryCache.set(sectionId, { status: "loading", images: [] });
+      rerenderPanels();
+
+      try{
+        const url = new URL(ENDPOINT);
+        url.searchParams.set("action", "list");
+        url.searchParams.set("gallery", section.id);
+        url.searchParams.set("folderId", section.folderId);
+        url.searchParams.set("secret", SECRET);
+
+        const res = await fetch(url.toString(), { method: "GET" });
+        const data = await res.json();
+        if(!data?.ok || !Array.isArray(data.images)){
+          throw new Error(data?.error || "Ungueltige Antwort vom Server.");
+        }
+
+        galleryCache.set(sectionId, {
+          status: "ready",
+          images: data.images.map((image) => {
+            const fullUrl = String(image.fullUrl || image.url || image.downloadUrl || "");
+            const thumbUrl = String(image.thumbUrl || image.thumbnailUrl || fullUrl || "");
+            return {
+              name: String(image.name || "Foto"),
+              fullUrl,
+              thumbUrl,
+              downloadUrl: String(image.downloadUrl || fullUrl || "")
+            };
+          }).filter((image) => image.fullUrl || image.thumbUrl)
+        });
+      } catch (error){
+        galleryCache.set(sectionId, {
+          status: "error",
+          images: [],
+          message: error?.message || "Die Galerie konnte nicht geladen werden."
+        });
+      }
+
+      rerenderPanels();
+    }
+
     function activateTab(id){
       for(const section of PHOTO_SECTIONS){
         const isActive = section.id === id;
@@ -452,11 +690,60 @@
         tab.setAttribute("aria-selected", isActive ? "true" : "false");
         panel.hidden = !isActive;
       }
+      void loadGallery(id);
     }
+
+    function openLightbox(sectionId, index){
+      const state = galleryCache.get(sectionId);
+      if(!state?.images?.[index]) return;
+      const image = state.images[index];
+      lightboxImageEl.onerror = () => {
+        if(lightboxImageEl.src !== image.thumbUrl){
+          lightboxImageEl.src = image.thumbUrl;
+        }
+      };
+      lightboxImageEl.src = image.fullUrl || image.thumbUrl;
+      lightboxImageEl.alt = image.name;
+      lightboxNameEl.textContent = image.name;
+      lightboxDownloadEl.href = image.downloadUrl || image.fullUrl || image.thumbUrl || "#";
+      lightboxEl.classList.add("show");
+      lightboxEl.setAttribute("aria-hidden", "false");
+    }
+
+    function closeLightbox(){
+      lightboxEl.classList.remove("show");
+      lightboxEl.setAttribute("aria-hidden", "true");
+      lightboxImageEl.src = "";
+      lightboxImageEl.alt = "";
+      lightboxImageEl.onerror = null;
+      lightboxNameEl.textContent = "";
+      lightboxDownloadEl.href = "#";
+    }
+
+    function escapeHtml(value){
+      return String(value).replace(/[&<>"']/g, (m) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' }[m]));
+    }
+
+    function escapeAttr(value){
+      return escapeHtml(value);
+    }
+
+    lightboxCloseEl.addEventListener("click", closeLightbox);
+    lightboxEl.addEventListener("click", (event) => {
+      if(event.target === lightboxEl) closeLightbox();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if(event.key === "Escape") closeLightbox();
+    });
 
     for(const [index, section] of PHOTO_SECTIONS.entries()){
       tabsEl.appendChild(createTab(section, index));
       panelsEl.appendChild(createPanel(section, index));
+    }
+
+    if(galleryUnlocked && PHOTO_SECTIONS[0]){
+      void loadGallery(PHOTO_SECTIONS[0].id);
     }
   </script>
 </body>
