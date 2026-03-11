@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hochzeit – Fotos</title>
+  <title>Hochzeit – Fotobox</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +27,6 @@
     }
 
     *{ box-sizing: border-box; }
-
     body{
       margin: 0;
       font-family: "Source Sans 3", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -104,14 +103,14 @@
       width: fit-content;
     }
 
-    .tabs{
+    .switcher{
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-top: 14px;
     }
 
-    .tab{
+    .switchLink{
       appearance: none;
       border: 1px solid var(--gold-soft);
       background: #fff;
@@ -121,17 +120,17 @@
       font-weight: 600;
       font-size: 1rem;
       box-shadow: var(--shadow2);
-      min-width: 120px;
-      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .tab[aria-selected="true"]{
+    .switchLink.is-active{
       color: var(--text);
       border-color: var(--gold);
       background: linear-gradient(180deg, #fffaf0 0%, #ffffff 100%);
     }
-
-    .panel{ display: block; }
 
     .galleryCard{
       padding: 14px;
@@ -317,7 +316,6 @@
       overflow: hidden;
       background: #111827;
       box-shadow: var(--shadow);
-      position: relative;
     }
 
     .lightboxMedia{
@@ -364,59 +362,28 @@
 
     @media (max-width: 900px){
       .wrap{ max-width: 100%; }
-      .galleryGrid{
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      }
+      .galleryGrid{ grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
     }
 
     @media (max-width: 600px){
-      .wrap{
-        padding: calc(12px + env(safe-area-inset-top)) 12px 18px;
-      }
-      header{
-        gap: 6px;
-        margin-top: 0;
-        margin-bottom: 10px;
-      }
+      .wrap{ padding: calc(12px + env(safe-area-inset-top)) 12px 18px; }
+      header{ gap: 6px; margin-top: 0; margin-bottom: 10px; }
       .couple{ font-size: 0.88rem; }
       h1{ font-size: 1.7rem; }
       .sub{ display: none; }
       .cardHead, .cardBody{ padding: 12px; }
       .eyebrow{ display: none; }
-      .tabs{ justify-content: center; margin-top: 0; }
-      .tab{ width: auto; min-width: 0; padding: 10px 20px; }
+      .switcher{ justify-content: center; margin-top: 0; }
+      .switchLink{ padding: 10px 16px; }
       .galleryCard{ padding: 4px; }
-      .galleryActions{
-        flex-direction: column;
-        align-items: stretch;
-        margin-bottom: 10px;
-      }
-      .btn{
-        width: 100%;
-        font-size: 0.92rem;
-        padding: 10px 14px;
-      }
-      .gateCard,
-      .stateCard{ padding: 18px 14px; }
-      .gateForm{
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .galleryGrid{
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-      }
-      .photoMeta{
-        padding: 8px 10px 10px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
-      }
+      .galleryActions{ flex-direction: column; align-items: stretch; margin-bottom: 10px; }
+      .btn{ width: 100%; font-size: 0.92rem; padding: 10px 14px; }
+      .gateCard, .stateCard{ padding: 18px 14px; }
+      .gateForm{ flex-direction: column; align-items: stretch; }
+      .galleryGrid{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .photoMeta{ padding: 8px 10px 10px; flex-direction: column; align-items: flex-start; gap: 4px; }
       .lightbox{ padding: 12px; }
-      .lightboxBar{
-        flex-wrap: wrap;
-        align-items: center;
-      }
+      .lightboxBar{ flex-wrap: wrap; align-items: center; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -428,16 +395,17 @@
   <div class="wrap">
     <header>
       <p class="couple">Celine &amp; Paul · 07.03.2026</p>
-      <h1>Fotogalerie</h1>
-      <p class="sub">Die Bilder werden direkt auf der Seite geladen. Weitere Galerien koennen spaeter ueber dieselbe Tab-Struktur ergaenzt werden.</p>
+      <h1>Fotobox</h1>
+      <p class="sub">Die Fotobox-Bilder werden direkt auf der Seite geladen.</p>
     </header>
 
-    <section class="card" aria-labelledby="tabs-title">
-      <div class="cardHead">
-        <p class="eyebrow" id="tabs-title">Foto Galerie</p>
-        <div class="tabs" id="tabs" role="tablist" aria-labelledby="tabs-title"></div>
+    <section class="card">
+      <div class="cardHead">        <div class="switcher">
+          <a class="switchLink is-active" href="./fotos.html">Fotobox</a>
+          <a class="switchLink" href="./eure-aufnahmen.html">Eure Aufnahmen</a>
+        </div>
       </div>
-      <div class="cardBody galleryCard" id="tab-panels"></div>
+      <div class="cardBody galleryCard" id="gallery-root"></div>
     </section>
   </div>
 
@@ -461,22 +429,14 @@
     const SECRET = "PAULCELINE";
     const GALLERY_PASSWORD = "pizza";
     const GALLERY_SESSION_KEY = "hochzeit-fotos-unlocked";
-    const GOOGLE_DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/19oUPydhidpGMb23OshHPoUwnxJmCQoz8";
 
-    const PHOTO_SECTIONS = [
-      {
-        id: "fotobox",
-        label: "Fotobox",
-        title: "Fotobox-Galerie",
-        folderId: "19oUPydhidpGMb23OshHPoUwnxJmCQoz8"
-      }
-      // Spaeter erweiterbar:
-      // { id: "feiern", label: "Feiern", title: "Feier", folderId: "..." }
-      // { id: "standesamt", label: "Standesamt", title: "Standesamt", folderId: "..." }
-    ];
+    const PAGE = {
+      title: "Fotobox",
+      gallery: "fotobox",
+      folderUrl: "https://drive.google.com/drive/folders/19oUPydhidpGMb23OshHPoUwnxJmCQoz8"
+    };
 
-    const tabsEl = document.getElementById("tabs");
-    const panelsEl = document.getElementById("tab-panels");
+    const rootEl = document.getElementById("gallery-root");
     const lightboxEl = document.getElementById("lightbox");
     const lightboxImageEl = document.getElementById("lightboxImage");
     const lightboxNameEl = document.getElementById("lightboxName");
@@ -484,38 +444,18 @@
     const lightboxCloseEl = document.getElementById("lightboxClose");
 
     let galleryUnlocked = sessionStorage.getItem(GALLERY_SESSION_KEY) === "true";
-    const galleryCache = new Map();
+    let galleryState = { status: "idle", images: [] };
 
-    function createTab(section, index){
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "tab";
-      button.id = `tab-${section.id}`;
-      button.setAttribute("role", "tab");
-      button.setAttribute("aria-selected", index === 0 ? "true" : "false");
-      button.setAttribute("aria-controls", `panel-${section.id}`);
-      button.textContent = section.label;
-      button.addEventListener("click", () => activateTab(section.id));
-      return button;
+    function render(){
+      rootEl.innerHTML = renderContent();
+      bindEvents();
     }
 
-    function createPanel(section, index){
-      const panel = document.createElement("section");
-      panel.className = "panel";
-      panel.id = `panel-${section.id}`;
-      panel.setAttribute("role", "tabpanel");
-      panel.setAttribute("aria-labelledby", `tab-${section.id}`);
-      panel.hidden = index !== 0;
-      panel.innerHTML = renderPanelContent(section, galleryCache.get(section.id));
-      bindPanelEvents(panel, section);
-      return panel;
-    }
-
-    function renderPanelContent(section, state){
+    function renderContent(){
       if(!galleryUnlocked){
         return `
           <div class="gateCard">
-            <h2 class="gateTitle">${section.title}</h2>
+            <h2 class="gateTitle">${PAGE.title}</h2>
             <p class="gateText">Bitte Passwort eingeben, um die Galerie zu oeffnen.</p>
             <form class="gateForm">
               <input class="gateInput" type="password" inputmode="text" autocomplete="current-password" placeholder="Passwort" aria-label="Passwort fuer Galerie" />
@@ -526,34 +466,32 @@
         `;
       }
 
-      const current = state || { status: "idle", images: [] };
-
-      if(current.status === "loading"){
+      if(galleryState.status === "loading"){
         return `
           <div class="stateCard">
-            <h2 class="stateTitle">${section.title}</h2>
+            <h2 class="stateTitle">${PAGE.title}</h2>
             <p class="stateText">Die Bilder werden geladen...</p>
           </div>
         `;
       }
 
-      if(current.status === "error"){
+      if(galleryState.status === "error"){
         return `
           <div class="stateCard">
-            <h2 class="stateTitle">${section.title}</h2>
-            <p class="stateText">${escapeHtml(current.message || "Die Galerie konnte nicht geladen werden.")}</p>
+            <h2 class="stateTitle">${PAGE.title}</h2>
+            <p class="stateText">${escapeHtml(galleryState.message || "Die Galerie konnte nicht geladen werden.")}</p>
             <div style="margin-top:16px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
-              <button class="btn" type="button" data-retry="${section.id}">Erneut laden</button>
-              <a class="btn" href="${GOOGLE_DRIVE_FOLDER_URL}" target="_blank" rel="noreferrer noopener">Ordner in Google Drive öffnen</a>
+              <button class="btn" type="button" data-retry>Erneut laden</button>
+              <a class="btn" href="${PAGE.folderUrl}" target="_blank" rel="noreferrer noopener">Ordner in Google Drive öffnen</a>
             </div>
           </div>
         `;
       }
 
-      if(current.status === "ready" && current.images.length === 0){
+      if(galleryState.status === "ready" && galleryState.images.length === 0){
         return `
           <div class="stateCard">
-            <h2 class="stateTitle">${section.title}</h2>
+            <h2 class="stateTitle">${PAGE.title}</h2>
             <p class="stateText">Aktuell sind in diesem Bereich noch keine Bilder verfuegbar.</p>
           </div>
         `;
@@ -561,24 +499,20 @@
 
       return `
         <div class="galleryActions">
-          <span class="galleryHint">${current.images.length} Bild${current.images.length === 1 ? "" : "er"} verfuegbar</span>
-          <a class="btn" href="${GOOGLE_DRIVE_FOLDER_URL}" target="_blank" rel="noreferrer noopener">Ordner in Google Drive öffnen</a>
+          <span class="galleryHint">${galleryState.images.length} Bild${galleryState.images.length === 1 ? "" : "er"} verfuegbar</span>
+          <a class="btn" href="${PAGE.folderUrl}" target="_blank" rel="noreferrer noopener">Ordner in Google Drive öffnen</a>
         </div>
         <div class="galleryGrid">
-          ${current.images.map((image, index) => `
-            <article class="photoCard" data-open-index="${index}" data-section-id="${section.id}">
+          ${galleryState.images.map((image, index) => `
+            <article class="photoCard" data-open-index="${index}">
               <div class="photoThumb">
-                <img src="${escapeAttr(image.thumbUrl || image.url)}" alt="${escapeAttr(image.name)}" loading="lazy" />
+                <img src="${escapeAttr(image.thumbUrl)}" alt="${escapeAttr(image.name)}" loading="lazy" />
               </div>
               <div class="photoMeta">
                 <span class="photoName">${escapeHtml(image.name)}</span>
                 <div style="display:flex; gap:8px; align-items:center;">
                   <span class="photoAction">Ansehen</span>
-                  <a
-                    class="photoDownload"
-                    href="${escapeAttr(image.downloadUrl || image.fullUrl || image.thumbUrl || "#")}"
-                    data-download-link
-                  >Download</a>
+                  <a class="photoDownload" href="${escapeAttr(image.downloadUrl || image.fullUrl || image.thumbUrl || "#")}" data-download-link>Download</a>
                 </div>
               </div>
             </article>
@@ -587,18 +521,18 @@
       `;
     }
 
-    function bindPanelEvents(panel, section){
+    function bindEvents(){
       if(!galleryUnlocked){
-        const form = panel.querySelector(".gateForm");
-        const input = panel.querySelector(".gateInput");
-        const error = panel.querySelector(".gateError");
+        const form = rootEl.querySelector(".gateForm");
+        const input = rootEl.querySelector(".gateInput");
+        const error = rootEl.querySelector(".gateError");
         form.addEventListener("submit", (event) => {
           event.preventDefault();
           if(input.value === GALLERY_PASSWORD){
             galleryUnlocked = true;
             sessionStorage.setItem(GALLERY_SESSION_KEY, "true");
-            rerenderPanels();
-            void loadGallery(section.id);
+            render();
+            void loadGallery();
             return;
           }
           error.textContent = "Passwort falsch. Bitte erneut versuchen.";
@@ -607,56 +541,40 @@
         return;
       }
 
-      panel.querySelectorAll("[data-open-index]").forEach((el) => {
-        el.addEventListener("click", () => openLightbox(section.id, Number(el.getAttribute("data-open-index"))));
+      rootEl.querySelectorAll("[data-open-index]").forEach((el) => {
+        el.addEventListener("click", () => openLightbox(Number(el.getAttribute("data-open-index"))));
       });
 
-      panel.querySelectorAll("[data-download-link]").forEach((el) => {
+      rootEl.querySelectorAll("[data-download-link]").forEach((el) => {
         el.addEventListener("click", (event) => {
           event.stopPropagation();
         });
       });
 
-      const retryBtn = panel.querySelector("[data-retry]");
+      const retryBtn = rootEl.querySelector("[data-retry]");
       if(retryBtn){
-        retryBtn.addEventListener("click", () => void loadGallery(section.id, true));
+        retryBtn.addEventListener("click", () => void loadGallery(true));
       }
     }
 
-    function rerenderPanels(){
-      for(const section of PHOTO_SECTIONS){
-        const panel = document.getElementById(`panel-${section.id}`);
-        const isHidden = panel.hidden;
-        const fresh = createPanel(section, isHidden ? 1 : 0);
-        fresh.hidden = isHidden;
-        panel.replaceWith(fresh);
-      }
-    }
+    async function loadGallery(force = false){
+      if(!galleryUnlocked) return;
+      if(galleryState.status === "ready" && !force) return;
 
-    async function loadGallery(sectionId, force = false){
-      const section = PHOTO_SECTIONS.find((item) => item.id === sectionId);
-      if(!section || !galleryUnlocked) return;
-
-      const current = galleryCache.get(sectionId);
-      if(current?.status === "ready" && !force) return;
-
-      galleryCache.set(sectionId, { status: "loading", images: [] });
-      rerenderPanels();
+      galleryState = { status: "loading", images: [] };
+      render();
 
       try{
         const url = new URL(ENDPOINT);
         url.searchParams.set("action", "list");
-        url.searchParams.set("gallery", section.id);
-        url.searchParams.set("folderId", section.folderId);
+        url.searchParams.set("gallery", PAGE.gallery);
         url.searchParams.set("secret", SECRET);
 
         const res = await fetch(url.toString(), { method: "GET" });
         const data = await res.json();
-        if(!data?.ok || !Array.isArray(data.images)){
-          throw new Error(data?.error || "Ungueltige Antwort vom Server.");
-        }
+        if(!data?.ok || !Array.isArray(data.images)) throw new Error(data?.error || "Ungueltige Antwort vom Server.");
 
-        galleryCache.set(sectionId, {
+        galleryState = {
           status: "ready",
           images: data.images.map((image) => {
             const fullUrl = String(image.fullUrl || image.url || image.downloadUrl || "");
@@ -668,33 +586,21 @@
               downloadUrl: String(image.downloadUrl || fullUrl || "")
             };
           }).filter((image) => image.fullUrl || image.thumbUrl)
-        });
+        };
       } catch (error){
-        galleryCache.set(sectionId, {
+        galleryState = {
           status: "error",
           images: [],
           message: error?.message || "Die Galerie konnte nicht geladen werden."
-        });
+        };
       }
 
-      rerenderPanels();
+      render();
     }
 
-    function activateTab(id){
-      for(const section of PHOTO_SECTIONS){
-        const isActive = section.id === id;
-        const tab = document.getElementById(`tab-${section.id}`);
-        const panel = document.getElementById(`panel-${section.id}`);
-        tab.setAttribute("aria-selected", isActive ? "true" : "false");
-        panel.hidden = !isActive;
-      }
-      void loadGallery(id);
-    }
-
-    function openLightbox(sectionId, index){
-      const state = galleryCache.get(sectionId);
-      if(!state?.images?.[index]) return;
-      const image = state.images[index];
+    function openLightbox(index){
+      if(!galleryState.images[index]) return;
+      const image = galleryState.images[index];
       lightboxImageEl.onerror = () => {
         if(lightboxImageEl.src !== image.thumbUrl){
           lightboxImageEl.src = image.thumbUrl;
@@ -730,19 +636,12 @@
     lightboxEl.addEventListener("click", (event) => {
       if(event.target === lightboxEl) closeLightbox();
     });
-
     document.addEventListener("keydown", (event) => {
       if(event.key === "Escape") closeLightbox();
     });
 
-    for(const [index, section] of PHOTO_SECTIONS.entries()){
-      tabsEl.appendChild(createTab(section, index));
-      panelsEl.appendChild(createPanel(section, index));
-    }
-
-    if(galleryUnlocked && PHOTO_SECTIONS[0]){
-      void loadGallery(PHOTO_SECTIONS[0].id);
-    }
+    render();
+    if(galleryUnlocked) void loadGallery();
   </script>
 </body>
 </html>

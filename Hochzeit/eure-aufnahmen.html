@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hochzeit – Fotobox</title>
+  <title>Hochzeit – Eure Aufnahmen</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,371 +38,64 @@
       min-height: 100vh;
     }
 
-    .wrap{
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 26px 18px 36px;
-    }
-
-    header{
-      display: grid;
-      gap: 10px;
-      text-align: center;
-      margin-top: 12px;
-      margin-bottom: 18px;
-    }
-
-    .couple{
-      margin: 0;
-      font-size: 1.1rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gold);
-      font-family: "Playfair Display", serif;
-    }
-
-    h1{
-      margin: 0;
-      font-family: "Playfair Display", serif;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      font-size: clamp(2rem, 3.5vw, 2.7rem);
-      line-height: 1.05;
-    }
-
-    .sub{
-      margin: 0 auto;
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.5;
-      max-width: 56ch;
-    }
-
-    .card{
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      border-top: 3px solid var(--gold-soft);
-    }
-
+    .wrap{ max-width: 1180px; margin: 0 auto; padding: 26px 18px 36px; }
+    header{ display: grid; gap: 10px; text-align: center; margin-top: 12px; margin-bottom: 18px; }
+    .couple{ margin: 0; font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); font-family: "Playfair Display", serif; }
+    h1{ margin: 0; font-family: "Playfair Display", serif; font-weight: 700; letter-spacing: -0.02em; font-size: clamp(2rem, 3.5vw, 2.7rem); line-height: 1.05; }
+    .sub{ margin: 0 auto; color: var(--muted); font-size: 1rem; line-height: 1.5; max-width: 56ch; }
+    .card{ background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; border-top: 3px solid var(--gold-soft); }
     .cardHead{ padding: 20px 20px 0; }
     .cardBody{ padding: 20px; }
-
-    .eyebrow{
-      display: inline-flex;
-      justify-content: center;
-      color: #6b5a2a;
-      font-size: 0.95rem;
-      background: linear-gradient(180deg, var(--gold-soft), #fff);
-      border: 1px solid var(--gold-soft);
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-weight: 600;
-      width: fit-content;
-    }
-
-    .switcher{
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .switchLink{
-      appearance: none;
-      border: 1px solid var(--gold-soft);
-      background: #fff;
-      color: var(--muted);
-      padding: 11px 18px;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: 1rem;
-      box-shadow: var(--shadow2);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .switchLink.is-active{
-      color: var(--text);
-      border-color: var(--gold);
-      background: linear-gradient(180deg, #fffaf0 0%, #ffffff 100%);
-    }
-
-    .galleryCard{
-      padding: 14px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(250,247,239,0.98) 100%);
-    }
-
-    .galleryActions{
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-
-    .galleryHint{
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
-
-    .btn{
-      appearance: none;
-      border: 1px solid var(--gold-soft);
-      background: #fff;
-      color: var(--text);
-      padding: 11px 16px;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: 0.98rem;
-      cursor: pointer;
-      box-shadow: var(--shadow2);
-      transition: transform 0.08s ease, box-shadow 0.2s ease;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
+    .eyebrow{ display: inline-flex; justify-content: center; color: #6b5a2a; font-size: 0.95rem; background: linear-gradient(180deg, var(--gold-soft), #fff); border: 1px solid var(--gold-soft); padding: 6px 12px; border-radius: 999px; font-weight: 600; width: fit-content; }
+    .switcher{ display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .switchLink{ appearance: none; border: 1px solid var(--gold-soft); background: #fff; color: var(--muted); padding: 11px 18px; border-radius: 999px; font-weight: 600; font-size: 1rem; box-shadow: var(--shadow2); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+    .switchLink.is-active{ color: var(--text); border-color: var(--gold); background: linear-gradient(180deg, #fffaf0 0%, #ffffff 100%); }
+    .galleryCard{ padding: 14px; background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(250,247,239,0.98) 100%); }
+    .galleryActions{ display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 14px; }
+    .galleryHint{ color: var(--muted); font-size: 0.96rem; }
+    .btn{ appearance: none; border: 1px solid var(--gold-soft); background: #fff; color: var(--text); padding: 11px 16px; border-radius: 999px; font-weight: 600; font-size: 0.98rem; cursor: pointer; box-shadow: var(--shadow2); transition: transform 0.08s ease, box-shadow 0.2s ease; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
     .btn:hover{ box-shadow: var(--shadow); }
     .btn:active{ transform: translateY(1px); }
-
-    .gateCard,
-    .stateCard{
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(250,247,239,0.98) 100%);
-      box-shadow: var(--shadow2);
-      padding: 24px;
-      text-align: center;
-    }
-
-    .gateTitle,
-    .stateTitle{
-      margin: 0;
-      font-family: "Playfair Display", serif;
-      font-size: clamp(1.35rem, 2vw, 1.8rem);
-      line-height: 1.1;
-    }
-
-    .gateText,
-    .stateText{
-      margin: 10px auto 0;
-      max-width: 36ch;
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.5;
-    }
-
-    .gateForm{
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 20px;
-    }
-
-    .gateInput{
-      width: min(320px, 100%);
-      border: 1px solid var(--gold-soft);
-      border-radius: 999px;
-      padding: 12px 16px;
-      font: inherit;
-      color: var(--text);
-      background: #fff;
-      box-shadow: var(--shadow2);
-      outline: none;
-    }
-
-    .gateInput:focus{
-      border-color: var(--gold);
-      box-shadow: var(--shadow);
-    }
-
-    .gateError{
-      min-height: 1.4em;
-      margin: 10px 0 0;
-      color: #b42318;
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    .galleryGrid{
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 16px;
-    }
-
-    .photoCard{
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: #fff;
-      box-shadow: var(--shadow2);
-      overflow: hidden;
-      cursor: pointer;
-    }
-
-    .photoThumb{
-      aspect-ratio: 1 / 1;
-      background: #f6f6f2;
-    }
-
-    .photoThumb img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .photoMeta{
-      padding: 10px 12px 12px;
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .photoName{
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .photoAction{
-      color: #6b5a2a;
-      font-size: 0.85rem;
-      white-space: nowrap;
-    }
-
-    .photoDownload{
-      appearance: none;
-      border: 1px solid var(--gold-soft);
-      background: linear-gradient(180deg, #fff, #faf7ef);
-      color: #6b5a2a;
-      border-radius: 999px;
-      padding: 6px 10px;
-      font: inherit;
-      font-size: 0.82rem;
-      font-weight: 700;
-      text-decoration: none;
-      box-shadow: var(--shadow2);
-      white-space: nowrap;
-    }
-
-    .lightbox{
-      position: fixed;
-      inset: 0;
-      background: rgba(17, 24, 39, 0.82);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 60;
-    }
-
+    .gateCard, .stateCard{ border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(250,247,239,0.98) 100%); box-shadow: var(--shadow2); padding: 24px; text-align: center; }
+    .gateTitle, .stateTitle{ margin: 0; font-family: "Playfair Display", serif; font-size: clamp(1.35rem, 2vw, 1.8rem); line-height: 1.1; }
+    .gateText, .stateText{ margin: 10px auto 0; max-width: 36ch; color: var(--muted); font-size: 1rem; line-height: 1.5; }
+    .gateForm{ display: flex; justify-content: center; gap: 12px; margin-top: 20px; }
+    .gateInput{ width: min(320px, 100%); border: 1px solid var(--gold-soft); border-radius: 999px; padding: 12px 16px; font: inherit; color: var(--text); background: #fff; box-shadow: var(--shadow2); outline: none; }
+    .gateInput:focus{ border-color: var(--gold); box-shadow: var(--shadow); }
+    .gateError{ min-height: 1.4em; margin: 10px 0 0; color: #b42318; font-size: 0.95rem; font-weight: 600; }
+    .galleryGrid{ display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+    .photoCard{ border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: var(--shadow2); overflow: hidden; cursor: pointer; }
+    .photoThumb{ aspect-ratio: 1 / 1; background: #f6f6f2; }
+    .photoThumb img{ width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photoMeta{ padding: 10px 12px 12px; display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+    .photoName{ font-size: 0.95rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .photoAction{ color: #6b5a2a; font-size: 0.85rem; white-space: nowrap; }
+    .photoDownload{ appearance: none; border: 1px solid var(--gold-soft); background: linear-gradient(180deg, #fff, #faf7ef); color: #6b5a2a; border-radius: 999px; padding: 6px 10px; font: inherit; font-size: 0.82rem; font-weight: 700; text-decoration: none; box-shadow: var(--shadow2); white-space: nowrap; }
+    .lightbox{ position: fixed; inset: 0; background: rgba(17, 24, 39, 0.82); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 60; }
     .lightbox.show{ display: flex; }
-
-    .lightboxDialog{
-      width: min(1080px, 100%);
-      max-height: 92vh;
-      border-radius: 18px;
-      overflow: hidden;
-      background: #111827;
-      box-shadow: var(--shadow);
-    }
-
-    .lightboxMedia{
-      background: #111827;
-      display: grid;
-      place-items: center;
-      max-height: 78vh;
-    }
-
-    .lightboxMedia img{
-      max-width: 100%;
-      max-height: 78vh;
-      display: block;
-      object-fit: contain;
-    }
-
-    .lightboxBar{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
-      background: rgba(255,255,255,0.98);
-    }
-
-    .lightboxName{
-      font-weight: 600;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .lightboxClose{
-      width: 40px;
-      height: 40px;
-      border-radius: 999px;
-      border: 1px solid var(--gold-soft);
-      background: #fff;
-      color: var(--text);
-      cursor: pointer;
-      box-shadow: var(--shadow2);
-      font-size: 1.15rem;
-    }
-
-    @media (max-width: 900px){
-      .wrap{ max-width: 100%; }
-      .galleryGrid{ grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
-    }
-
-    @media (max-width: 600px){
-      .wrap{ padding: calc(12px + env(safe-area-inset-top)) 12px 18px; }
-      header{ gap: 6px; margin-top: 0; margin-bottom: 10px; }
-      .couple{ font-size: 0.88rem; }
-      h1{ font-size: 1.7rem; }
-      .sub{ display: none; }
-      .cardHead, .cardBody{ padding: 12px; }
-      .eyebrow{ display: none; }
-      .switcher{ justify-content: center; margin-top: 0; }
-      .switchLink{ padding: 10px 16px; }
-      .galleryCard{ padding: 4px; }
-      .galleryActions{ flex-direction: column; align-items: stretch; margin-bottom: 10px; }
-      .btn{ width: 100%; font-size: 0.92rem; padding: 10px 14px; }
-      .gateCard, .stateCard{ padding: 18px 14px; }
-      .gateForm{ flex-direction: column; align-items: stretch; }
-      .galleryGrid{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-      .photoMeta{ padding: 8px 10px 10px; flex-direction: column; align-items: flex-start; gap: 4px; }
-      .lightbox{ padding: 12px; }
-      .lightboxBar{ flex-wrap: wrap; align-items: center; }
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-    }
+    .lightboxDialog{ width: min(1080px, 100%); max-height: 92vh; border-radius: 18px; overflow: hidden; background: #111827; box-shadow: var(--shadow); }
+    .lightboxMedia{ background: #111827; display: grid; place-items: center; max-height: 78vh; }
+    .lightboxMedia img{ max-width: 100%; max-height: 78vh; display: block; object-fit: contain; }
+    .lightboxBar{ display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 14px; background: rgba(255,255,255,0.98); }
+    .lightboxName{ font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .lightboxClose{ width: 40px; height: 40px; border-radius: 999px; border: 1px solid var(--gold-soft); background: #fff; color: var(--text); cursor: pointer; box-shadow: var(--shadow2); font-size: 1.15rem; }
+    @media (max-width: 900px){ .wrap{ max-width: 100%; } .galleryGrid{ grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); } }
+    @media (max-width: 600px){ .wrap{ padding: calc(12px + env(safe-area-inset-top)) 12px 18px; } header{ gap: 6px; margin-top: 0; margin-bottom: 10px; } .couple{ font-size: 0.88rem; } h1{ font-size: 1.7rem; } .sub{ display: none; } .cardHead, .cardBody{ padding: 12px; } .eyebrow{ display: none; } .switcher{ justify-content: center; margin-top: 0; } .switchLink{ padding: 10px 16px; } .galleryCard{ padding: 4px; } .galleryActions{ flex-direction: column; align-items: stretch; margin-bottom: 10px; } .btn{ width: 100%; font-size: 0.92rem; padding: 10px 14px; } .gateCard, .stateCard{ padding: 18px 14px; } .gateForm{ flex-direction: column; align-items: stretch; } .galleryGrid{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .photoMeta{ padding: 8px 10px 10px; flex-direction: column; align-items: flex-start; gap: 4px; } .lightbox{ padding: 12px; } .lightboxBar{ flex-wrap: wrap; align-items: center; } }
+    @media (prefers-reduced-motion: reduce){ *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <p class="couple">Celine &amp; Paul · 07.03.2026</p>
-      <h1>Fotobox</h1>
-      <p class="sub">Die Fotobox-Bilder werden direkt auf der Seite geladen.</p>
+      <h1>Eure Aufnahmen</h1>
+      <p class="sub">Hier erscheinen die Bilder aus dem Upload-Ordner.</p>
     </header>
 
     <section class="card">
       <div class="cardHead">        <div class="switcher">
-          <a class="switchLink is-active" href="./fotos.html">Fotobox</a>
-          <a class="switchLink" href="./eure-aufnahmen.html">Eure Aufnahmen</a>
+          <a class="switchLink" href="./fotos.html">Fotobox</a>
+          <a class="switchLink is-active" href="./eure-aufnahmen.html">Eure Aufnahmen</a>
         </div>
       </div>
       <div class="cardBody galleryCard" id="gallery-root"></div>
@@ -431,9 +124,9 @@
     const GALLERY_SESSION_KEY = "hochzeit-fotos-unlocked";
 
     const PAGE = {
-      title: "Fotobox",
-      gallery: "fotobox",
-      folderUrl: "https://drive.google.com/drive/folders/19oUPydhidpGMb23OshHPoUwnxJmCQoz8"
+      title: "Eure Aufnahmen",
+      gallery: "eure-aufnahmen",
+      folderUrl: "https://drive.google.com/drive/folders/14sht9MzUEOeAyAWj1DyFt-_hOpLg0i6Z?usp=share_link"
     };
 
     const rootEl = document.getElementById("gallery-root");
